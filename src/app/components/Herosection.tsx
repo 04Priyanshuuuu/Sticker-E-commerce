@@ -1,46 +1,121 @@
 "use client";
-import Link from "next/link";
-import { ThreeDMarquee } from "./ui/3d-marquee";
 
-function Herosection() {
-  const images = [
-    "/stickers/stickers.jpg",
-    "/stickers/stickers.jpg",
-    "/stickers/stickers.jpg",
-    "/stickers/stickers.jpg",
-    "/stickers/stickers.jpg",
-    "/stickers/stickers.jpg",
-    "/stickers/stickers.jpg",
-    "/stickers/stickers.jpg",
-    "/stickers/stickers.jpg",
-    "/stickers/stickers.jpg",
-    "/stickers/stickers.jpg",
-    "/stickers/stickers.jpg",
-  ];
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+// import { Button } from "@/components/ui/button"; // shadcn button
+import { ThreeDMarquee } from "./ui/3d-marquee";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+const images = [
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+  "/stickers/stickers.jpg",
+];
+
+const slides = [
+  {
+    id: 1,
+    content: (
+      <div className="flex items-center justify-center h-full w-full bg-black text-white">
+        {/* Yaha tum Aceternity UI ka 3D marquee dal do */}
+        <h1 className="text-4xl font-bold">
+          <div className="mt-6">
+            <ThreeDMarquee images={images} />
+          </div>
+        </h1>
+      </div>
+    ),
+  },
+  {
+    id: 2,
+    content: (
+      <div className="flex items-center justify-center h-full w-full bg-blue-500 text-white">
+        <h1 className="text-4xl font-bold">🔥 Slide 2 Content</h1>
+      </div>
+    ),
+  },
+  {
+    id: 3,
+    content: (
+      <div className="flex items-center justify-center h-full w-full bg-green-500 text-white">
+        <h1 className="text-4xl font-bold">🎉 Slide 3 Content</h1>
+      </div>
+    ),
+  },
+];
+
+export default function HeroCarousel() {
+  const [current, setCurrent] = useState(0);
+
+  // Auto slide every 60 sec
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % slides.length);
+    }, 60000); // 1 minute
+    return () => clearInterval(timer);
+  }, []);
+
+  const nextSlide = () => setCurrent((prev) => (prev + 1) % slides.length);
+  const prevSlide = () =>
+    setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <div className="relative h-auto md:h-[40rem] w-full rounded-md flex flex-col items-center justify-center overflow-hidden mx-auto py-10 md:py-0">
-      {/* 👇 3D Marquee Background */}
-      <div className="absolute inset-0 flex items-center justify-center z-0 opacity-30">
-        <div className="scale-90 translate-y-20">
-          <ThreeDMarquee images={images} />
-        </div>
-      </div>
+    <div className="relative w-full h-[500px] overflow-hidden rounded-2xl shadow-xl">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={slides[current].id}
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          transition={{ duration: 0.6 }}
+          className="absolute top-0 left-0 w-full h-full"
+        >
+          {slides[current].content}
+        </motion.div>
+      </AnimatePresence>
 
-      {/* 👇 Foreground Content */}
-      <div className="p-4 relative z-10 w-full text-center">
-        <h1 className="mt-20 md:mt-0 text-4xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400">
-          Get stickE wicky
-        </h1>
-        <p className="mt-4 font-normal text-base md:text-lg text-neutral-300 max-w-lg mx-auto">
-          Dive into sticke
-        </p>
-        <div className="mt-4">
-          <Link href={"/stickers"}>Explore Stickers</Link>
-        </div>
+      {/* Controls */}
+      <div className="absolute bottom-5 right-5 flex gap-3">
+        <button
+          onClick={prevSlide}
+          className="w-10 h-10 flex items-center justify-center rounded-full bg-white/80 hover:bg-white shadow-lg"
+        >
+          <ChevronLeft className="w-5 h-5 text-black" />
+        </button>
+        <button
+          onClick={nextSlide}
+          className="w-10 h-10 flex items-center justify-center rounded-full bg-white/80 hover:bg-white shadow-lg"
+        >
+          <ChevronRight className="w-5 h-5 text-black" />
+        </button>
       </div>
     </div>
   );
 }
-
-export default Herosection;
