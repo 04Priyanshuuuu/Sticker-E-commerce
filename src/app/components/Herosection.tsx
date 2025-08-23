@@ -7,36 +7,36 @@ import { ThreeDMarquee } from "./ui/3d-marquee";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const images = [
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
-  "/stickers/stickers.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
+  "/stickers/sticker2.jpg",
 ];
 
 const slides = [
@@ -44,7 +44,6 @@ const slides = [
     id: 1,
     content: (
       <div className="flex items-center justify-center h-full w-full bg-black text-white">
-        {/* Yaha tum Aceternity UI ka 3D marquee dal do */}
         <h1 className="text-4xl font-bold">
           <div className="mt-6">
             <ThreeDMarquee images={images} />
@@ -57,7 +56,7 @@ const slides = [
     id: 2,
     content: (
       <div className="flex items-center justify-center h-full w-full bg-blue-500 text-white">
-        <h1 className="text-4xl font-bold">🔥 Slide 2 Content</h1>
+        <h1 className="text-4xl font-bold"> Slide 2 Content</h1>
       </div>
     ),
   },
@@ -65,7 +64,7 @@ const slides = [
     id: 3,
     content: (
       <div className="flex items-center justify-center h-full w-full bg-green-500 text-white">
-        <h1 className="text-4xl font-bold">🎉 Slide 3 Content</h1>
+        <h1 className="text-4xl font-bold"> Slide 3 Content</h1>
       </div>
     ),
   },
@@ -78,7 +77,7 @@ export default function HeroCarousel() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
-    }, 60000); // 1 minute
+    }, 60000);
     return () => clearInterval(timer);
   }, []);
 
@@ -101,7 +100,6 @@ export default function HeroCarousel() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Controls */}
       <div className="absolute bottom-5 right-5 flex gap-3">
         <button
           onClick={prevSlide}

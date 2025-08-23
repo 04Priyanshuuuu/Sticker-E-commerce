@@ -51,7 +51,7 @@ export const ThreeDMarquee = ({
                         y: -10,
                       }}
                       transition={{
-                        duration: 0.3,
+                        duration: 0.0003,
                         ease: "easeInOut",
                       }}
                       key={imageIndex + image}
