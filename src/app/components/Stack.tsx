@@ -47,22 +47,27 @@ export function DraggableCard() {
     },
   ];
   return (
-    <DraggableCardContainer className="relative flex min-h-screen w-full items-center justify-center overflow-clip">
-      <p className="absolute top-1/2 mx-auto max-w-sm -translate-y-3/4 text-center text-2xl font-black text-neutral-400 md:text-4xl dark:text-neutral-800">
-        kaa raja card khtm hogyil kaaa hehe
-      </p>
-      {items.map((item) => (
-        <DraggableCardBody className={item.className}>
-          <img
-            src={item.image}
-            alt={item.title}
-            className="pointer-events-none relative z-10 h-80 w-80 object-cover"
-          />
-          <h3 className="mt-4 text-center text-2xl font-bold text-neutral-700 dark:text-neutral-300">
-            {item.title}
-          </h3>
-        </DraggableCardBody>
-      ))}
-    </DraggableCardContainer>
+    <div className="w-full">
+      <h1 className="text-[40px] font-bold m-10 ml-5 text-left border-l-4 border-blue-500 pl-4">
+        Random
+      </h1>
+      <DraggableCardContainer className="relative flex min-h-screen w-full items-center justify-center overflow-clip">
+        <p className="absolute top-1/2 mx-auto max-w-sm -translate-y-3/4 text-center text-2xl font-black text-neutral-400 md:text-4xl dark:text-neutral-800">
+          kaa raja card khtm hogyil kaaa hehe
+        </p>
+        {items.map((item) => (
+          <DraggableCardBody className={item.className}>
+            <img
+              src={item.image}
+              alt={item.title}
+              className="pointer-events-none relative z-10 h-80 w-80 object-cover"
+            />
+            <h3 className="mt-4 text-center text-2xl font-bold text-neutral-700 dark:text-neutral-300">
+              {item.title}
+            </h3>
+          </DraggableCardBody>
+        ))}
+      </DraggableCardContainer>
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import Image from "next/image";
+
 import Herosection from "./components/Herosection";
 import Footer from "./components/Footer";
 import Grid from "./components/Grid";

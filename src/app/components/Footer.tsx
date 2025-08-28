@@ -1,19 +1,21 @@
-function footer() {
+function Footer() {
   return (
-    <footer className="bg-neutral-900 bg-cover bg-center bg-no-repeat h-[500px] text-gray-300 px-12 py-5 border-t border-gray-400">
+    <footer className="bg-black-900 bg-cover bg-center bg-no-repeat min-h-[500px] text-gray-300 px-6 sm:px-8 md:px-12 py-5 border-t border-gray-400">
       {/* Heading */}
-      <h1 className="ml-20 text-2xl font-bold text-white">About Us</h1>
-      <p className="ml-20 mt-6 text-gray-300 text-lg max-w-3xl">
-        Welcome to Animeflix! Dive into the world of anime, and experience a
+      <h1 className="text-2xl font-bold text-white text-center md:text-left md:ml-20">
+        About Us
+      </h1>
+      <p className="mt-6 text-gray-300 text-base sm:text-lg max-w-3xl text-center md:text-left md:ml-20">
+        Welcome to StickE! Dive into the world of Stickers, and experience a
         rollercoaster of emotions.
       </p>
 
       {/* Sections */}
-      <div className="flex justify-around flex-wrap mt-24">
+      <div className="flex flex-col sm:flex-row sm:flex-wrap justify-between gap-8 mt-16 md:mt-24">
         {/* Contact Us */}
-        <div>
+        <div className="sm:w-[45%] md:w-auto">
           <h4 className="mb-4 text-lg font-semibold text-white">Contact Us</h4>
-          <ul className="space-y-2">
+          <ul className="space-y-2 text-sm sm:text-base">
             <li>
               <p>
                 <strong className="text-white">Phone:</strong> +91 9555669802
@@ -33,18 +35,18 @@ function footer() {
             <li>
               <p>
                 <strong className="text-white">Address:</strong> Madan Mohan
-                Malaviya University Of Technology,Gorakhpur,Uttar pradesh
+                Malaviya University Of Technology, Gorakhpur, Uttar Pradesh
               </p>
             </li>
           </ul>
         </div>
 
         {/* Connect With Us */}
-        <div>
+        <div className="sm:w-[45%] md:w-auto">
           <h4 className="mb-4 text-lg font-semibold text-white">
             Connect With Us
           </h4>
-          <ul className="space-y-2">
+          <ul className="space-y-2 text-sm sm:text-base">
             <li>
               <a href="#" className="text-gray-400 hover:text-white">
                 YouTube
@@ -55,7 +57,6 @@ function footer() {
                 Facebook
               </a>
             </li>
-
             <li>
               <a href="#" className="text-gray-400 hover:text-white">
                 Instagram
@@ -65,9 +66,9 @@ function footer() {
         </div>
 
         {/* Animeflix Section */}
-        <div>
+        <div className="sm:w-[45%] md:w-auto">
           <h4 className="mb-4 text-lg font-semibold text-white">Animeflix</h4>
-          <ul className="space-y-2">
+          <ul className="space-y-2 text-sm sm:text-base">
             <li>
               <a href="#" className="text-gray-400 hover:text-white">
                 About
@@ -97,9 +98,9 @@ function footer() {
         </div>
 
         {/* Account Section */}
-        <div>
+        <div className="sm:w-[45%] md:w-auto">
           <h4 className="mb-4 text-lg font-semibold text-white">Account</h4>
-          <ul className="space-y-2">
+          <ul className="space-y-2 text-sm sm:text-base">
             <li>
               <a href="#" className="text-gray-400 hover:text-white">
                 Create Account
@@ -115,7 +116,7 @@ function footer() {
       </div>
 
       {/* Bottom */}
-      <div className="text-center text-sm border-t border-gray-700 pt-4 mt-8 text-gray-400">
+      <div className="text-center text-xs sm:text-sm border-t border-gray-700 pt-4 mt-8 text-gray-400">
         <p>&copy; 2024 Animeflix. All rights reserved.</p>
         <p>
           Made with <span className="text-red-500">❤️</span> by Priyanshu
@@ -125,4 +126,4 @@ function footer() {
   );
 }
 
-export default footer;
+export default Footer;

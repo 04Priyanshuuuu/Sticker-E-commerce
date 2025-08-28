@@ -1,8 +1,12 @@
+import Hero from "./components/Hero"
+
+
 function page() {
   return (
-    <div>
-      <h1>hello</h1>
-    </div>
+   <main className="min-h-screen bg-black/[0.96] antialiased bg-grid-white/[0.02]">
+      <Hero />
+      {/* <Footer /> */}
+    </main>
   );
 }
 

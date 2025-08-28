@@ -20,7 +20,10 @@ const movies = [
 const StickerSlider: React.FC = () => {
   return (
     <div className="w-full">
-      <p className="text-[40px] font-bold">Trending</p>
+      <h1 className="text-[40px] font-bold m-10 ml-5 text-left border-l-4 border-blue-500 pl-4">
+        Trending
+      </h1>
+
       <div
         className="
           flex gap-4 overflow-x-scroll p-5 scroll-smooth
