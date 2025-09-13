@@ -8,8 +8,22 @@ const slides = [
   {
     id: 1,
     content: (
-      <div className="flex items-center justify-center h-full w-full bg-black text-white">
-        <h1 className="text-4xl font-bold">Slide 1 Content</h1>
+      <div className="relative w-full h-full">
+        {/* Background Video */}
+        <video
+          src="/videos/yourname.mp4" // apna video public/videos folder me daalna
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute top-0 left-0 w-full h-full object-cover"
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+          <h1 className="text-4xl font-bold text-white">
+            Slide 1 with Video Background
+          </h1>
+        </div>
       </div>
     ),
   },
@@ -78,5 +92,3 @@ export default function HeroCarousel() {
     </div>
   );
 }
-
-
