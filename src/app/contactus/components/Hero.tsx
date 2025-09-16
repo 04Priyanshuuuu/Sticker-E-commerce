@@ -3,26 +3,35 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { SparklesCore } from "./ui/sparkles";
 
 const slides = [
   {
     id: 1,
     content: (
-      <div className="relative w-full h-full">
-        {/* Background Video */}
-        <video
-          src="/videos/yourname.mp4" // apna video public/videos folder me daalna
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute top-0 left-0 w-full h-full object-cover"
-        />
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <h1 className="text-4xl font-bold text-white">
-            Slide 1 with Video Background
-          </h1>
+      <div className="h-[40rem] w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
+        <h1 className="md:text-7xl text-3xl lg:text-9xl font-bold text-center text-white relative z-20">
+          Sticke
+        </h1>
+        <div className="w-[40rem] h-40 relative">
+          {/* Gradients */}
+          <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-3/4 blur-sm" />
+          <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-px w-3/4" />
+          <div className="absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-[5px] w-1/4 blur-sm" />
+          <div className="absolute inset-x-60 top-0 bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px w-1/4" />
+
+          {/* Core component */}
+          <SparklesCore
+            background="transparent"
+            minSize={0.4}
+            maxSize={1}
+            particleDensity={1200}
+            className="w-full h-full"
+            particleColor="#FFFFFF"
+          />
+
+          {/* Radial Gradient to prevent sharp edges */}
+          <div className="absolute inset-0 w-full h-full bg-black [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,white)]"></div>
         </div>
       </div>
     ),
@@ -30,8 +39,20 @@ const slides = [
   {
     id: 2,
     content: (
-      <div className="flex items-center justify-center h-full w-full bg-blue-500 text-white">
-        <h1 className="text-4xl font-bold">Slide 2 Content</h1>
+      <div className="relative w-full h-full">
+        <SparklesCore
+          background="transparent"
+          minSize={0.4}
+          maxSize={1}
+          particleDensity={1200}
+          className="w-full h-full"
+          particleColor="#FFFFFF"
+        />
+        <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+          <h1 className="text-4xl font-bold text-white">
+            Slide 2 with Video Background
+          </h1>
+        </div>
       </div>
     ),
   },
