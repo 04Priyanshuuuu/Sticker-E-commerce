@@ -1,14 +1,16 @@
 function Footer() {
   return (
-    <footer className="bg-black-900 bg-cover bg-center bg-no-repeat min-h-[500px] text-gray-300 px-6 sm:px-8 md:px-12 py-5 border-t border-gray-400">
-      {/* Heading */}
-      <h1 className="text-2xl font-bold text-white text-center md:text-left md:ml-20">
-        About Us
-      </h1>
-      <p className="mt-6 text-gray-300 text-base sm:text-lg max-w-3xl text-center md:text-left md:ml-20">
-        Welcome to StickE! Dive into the world of Stickers, and experience a
-        rollercoaster of emotions.
-      </p>
+    <footer className="bg-black min-h-[500px] text-gray-300 px-6 sm:px-8 md:px-12 py-10 border-t border-gray-400">
+      <div className="max-w-6xl mx-auto">
+        {/* Heading */}
+        <h1 className="text-2xl font-bold text-white text-center md:text-left">
+          About Us
+        </h1>
+        <p className="mt-6 text-gray-300 text-base sm:text-lg max-w-3xl text-center md:text-left">
+          Welcome to StickE! Dive into the world of Stickers, and experience a
+          rollercoaster of emotions.
+        </p>
+      </div>
 
       {/* Sections */}
       <div className="flex flex-col sm:flex-row sm:flex-wrap justify-between gap-8 mt-16 md:mt-24">
@@ -25,10 +27,10 @@ function Footer() {
               <p>
                 <strong className="text-white">Email:</strong>{" "}
                 <a
-                  href="business@gmail.com"
+                  href="stickebusiness@gmail.com"
                   className="hover:underline text-blue-400"
                 >
-                  Business@gmail.com
+                  Stickebusiness@gmail.com
                 </a>
               </p>
             </li>
@@ -65,9 +67,8 @@ function Footer() {
           </ul>
         </div>
 
-        {/* Animeflix Section */}
         <div className="sm:w-[45%] md:w-auto">
-          <h4 className="mb-4 text-lg font-semibold text-white">Animeflix</h4>
+          <h4 className="mb-4 text-lg font-semibold text-white">Sticke</h4>
           <ul className="space-y-2 text-sm sm:text-base">
             <li>
               <a href="#" className="text-gray-400 hover:text-white">
@@ -117,9 +118,9 @@ function Footer() {
 
       {/* Bottom */}
       <div className="text-center text-xs sm:text-sm border-t border-gray-700 pt-4 mt-8 text-gray-400">
-        <p>&copy; 2024 Animeflix. All rights reserved.</p>
+        <p>&copy; 2025 Sticke. All rights reserved.</p>
         <p>
-          Made with <span className="text-red-500">❤️</span> by Priyanshu
+          Made with <span className="text-red-500">❤️</span> by Zero
         </p>
       </div>
     </footer>
