@@ -1,9 +1,8 @@
-import Herosection from "./components/Herosection";
+import Herosection from "../components/Herosection";
 
-import Grid from "./components/Grid";
-import { DraggableCard } from "./components/Stack";
-import StickerSlider from "./components/Slider";
-
+import Grid from "../components/Grid";
+import { DraggableCard } from "../components/Stack";
+import StickerSlider from "../components/Slider";
 
 export default function Home() {
   return (

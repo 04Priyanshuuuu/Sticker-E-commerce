@@ -11,7 +11,7 @@ const slides = [
       <div className="relative w-full h-full">
         {/* Background Video */}
         <video
-          src="/videos/yourname.mp4" // apna video public/videos folder me daalna
+          src="../../videos/yourname.mp4" 
           autoPlay
           loop
           muted
@@ -20,9 +20,11 @@ const slides = [
         />
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <h1 className="text-4xl font-bold text-white">
-            Slide 1 with Video Background
-          </h1>
+          <h1 className="text-5xl font-extrabold text-white">Anime Stickers</h1>
+          <p className="text-lg text-white/90 max-w-2xl text-center">
+            Discover curated anime-inspired sticker packs — characters, chibi
+            art, and more.
+          </p>
         </div>
       </div>
     ),

@@ -1,39 +1,81 @@
 "use client";
 import React, { useState } from "react";
-import { HoveredLink, Menu, MenuItem, ProductItem } from "./ui/navbar-menu";
+import { HoveredLink, Menu, MenuItem } from "./ui/navbar-menu";
 import { cn } from "../utils/utils";
 import Link from "next/link";
+import { ShoppingCart, UserCircle } from "lucide-react"; // icons
 
 function Navbar({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
+  const [profileOpen, setProfileOpen] = useState(false);
+
   return (
     <div
-      className={cn("fixed top-10 inset-x-0 max-w-2xl mx-auto z-50", className)}
+      className={cn(
+        "fixed top-10 inset-x-0 max-w-5xl mx-auto z-50 flex items-center justify-between px-4",
+        className
+      )}
     >
+      {/* Center Menu */}
       <Menu setActive={setActive}>
+
+        {/* Leftmost Logo */}
+        <Link href="/contactus" className="text-2xl font-bold mr-60">
+          Sticke
+        </Link>
+
         <Link href="/">
-          <MenuItem
-            setActive={setActive}
-            active={active}
-            item="Home"
-          ></MenuItem>
+          <MenuItem setActive={setActive} active={active} item="Home" />
         </Link>
 
         <MenuItem setActive={setActive} active={active} item="Categories">
           <div className="flex flex-col space-y-4 text-sm">
-            <HoveredLink href="/anime">Anime</HoveredLink>
-            <HoveredLink href="/cars">Cars</HoveredLink>
-            <HoveredLink href="/natural">Natural</HoveredLink>
+            <HoveredLink href="/categories/anime">Anime</HoveredLink>
+            <HoveredLink href="/categories/cars">Cars</HoveredLink>
+            <HoveredLink href="/categories/cricketers">Cricketers</HoveredLink>
+            <HoveredLink href="/categories/nature">Nature</HoveredLink>
           </div>
         </MenuItem>
 
         <Link href={"/contactus"}>
-          <MenuItem
-            setActive={setActive}
-            active={active}
-            item="Contact Us"
-          ></MenuItem>
+          <MenuItem setActive={setActive} active={active} item="Contact Us" />
         </Link>
+      
+
+      {/* Right Side Icons */}
+      <div className="flex items-center space-x-6 ml-60">
+        {/* Cart */}
+        <Link href="/cart">
+          <ShoppingCart className="w-6 h-6 cursor-pointer" />
+        </Link>
+
+        {/* Profile */}
+        <div className="relative">
+          <UserCircle
+            className="w-8 h-8 cursor-pointer"
+            onClick={() => setProfileOpen(!profileOpen)}
+          />
+          {profileOpen && (
+            <div className="absolute right-0 mt-2 w-40 bg-black shadow-lg rounded-lg p-2 text-sm">
+              <Link
+                href="/profile"
+                className="block px-2 py-1 hover:bg-black-900"
+              >
+                My Profile
+              </Link>
+              <Link
+                href="/orders"
+                className="block px-2 py-1 hover:bg-black-900"
+              >
+                My Orders
+              </Link>
+              <button className="w-full text-left px-2 py-1 hover:bg-black-900 hover:cursor-pointer">
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
       </Menu>
     </div>
   );
