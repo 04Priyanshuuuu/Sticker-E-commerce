@@ -256,3 +256,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Next.js build output
+/frontend/.next
+
