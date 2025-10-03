@@ -51,17 +51,17 @@ function Footer() {
           <ul className="space-y-2 text-sm sm:text-base">
             <li>
               <a href="#" className="text-gray-400 hover:text-white">
-                YouTube
+                Whatsapp
               </a>
             </li>
             <li>
               <a href="#" className="text-gray-400 hover:text-white">
-                Facebook
+                Telegram
               </a>
             </li>
             <li>
               <a href="#" className="text-gray-400 hover:text-white">
-                Instagram
+                 Instagram
               </a>
             </li>
           </ul>
