@@ -11,7 +11,7 @@ const slides = [
       <div className="relative w-full h-full">
         {/* Background Video */}
         <video
-          src="../../videos/yourname.mp4" 
+          src="/videos/yourname.mp4" 
           autoPlay
           loop
           muted
