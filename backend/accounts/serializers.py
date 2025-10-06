@@ -22,10 +22,11 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return attrs
      
     def create(self, validate_data):
+        validate_data.pop("password2", None)
         return User.objects.create_user(**validate_data)
         
 
-class UserLoginSerializer(serializers.ModelSerializer):  
+class UserLoginSerializer(serializers.ModelSerializer):   
     email = serializers.EmailField(max_length=255)
     class Meta:
         model = User
