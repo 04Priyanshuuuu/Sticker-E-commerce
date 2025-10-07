@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { cn } from "../../utils/utils";
+import { cn } from "../../../../utils/utils";
 
 export const ThreeDMarquee = ({
   images,
