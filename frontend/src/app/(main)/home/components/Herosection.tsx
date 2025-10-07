@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 // import { Button } from "@/components/ui/button"; // shadcn button
-import { ThreeDMarquee } from "../../../components/ui/3d-marquee";
+import { ThreeDMarquee } from "../components/ui/3d-marquee";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const images = [
