@@ -5,9 +5,9 @@ import { cn } from "../../utils/utils";
 
 type Card = {
   id: number;
-  content: React.ReactNode | string;
-  className?: string;
-  thumbnail?: string;
+  content: JSX.Element | React.ReactNode | string;
+  className: string;
+  thumbnail: string;
 };
 
 export const LayoutGrid = ({ cards }: { cards: Card[] }) => {
@@ -46,7 +46,6 @@ export const LayoutGrid = ({ cards }: { cards: Card[] }) => {
           </motion.div>
         </div>
       ))}
-
       <motion.div
         onClick={handleOutsideClick}
         className={cn(
@@ -78,17 +77,32 @@ const SelectedCard = ({ selected }: { selected: Card | null }) => {
   return (
     <div className="bg-transparent h-full w-full flex flex-col justify-end rounded-lg shadow-2xl relative z-[60]">
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.6 }}
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: 0.6,
+        }}
         className="absolute inset-0 h-full w-full bg-black opacity-60 z-10"
       />
-
       <motion.div
         layoutId={`content-${selected?.id}`}
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 100 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
+        initial={{
+          opacity: 0,
+          y: 100,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        exit={{
+          opacity: 0,
+          y: 100,
+        }}
+        transition={{
+          duration: 0.3,
+          ease: "easeInOut",
+        }}
         className="relative px-8 pb-4 z-[70]"
       >
         {selected?.content}
@@ -96,5 +110,3 @@ const SelectedCard = ({ selected }: { selected: Card | null }) => {
     </div>
   );
 };
-
-export default LayoutGrid;

@@ -1,5 +1,8 @@
 import React from "react";
-import { DraggableCardBody, DraggableCardContainer } from "./ui/draggable-card";
+import {
+  DraggableCardBody,
+  DraggableCardContainer,
+} from "../../../components/ui/draggable-card";
 
 export function DraggableCard() {
   const items = [
@@ -55,8 +58,8 @@ export function DraggableCard() {
         <p className="absolute top-1/2 mx-auto max-w-sm -translate-y-3/4 text-center text-2xl font-black text-neutral-400 md:text-4xl dark:text-neutral-800">
           kaa raja card khtm hogyil kaaa hehe
         </p>
-        {items.map((item) => (
-          <DraggableCardBody className={item.className}>
+        {items.map((item, idx) => (
+          <DraggableCardBody key={item.title ?? idx} className={item.className}>
             <img
               src={item.image}
               alt={item.title}

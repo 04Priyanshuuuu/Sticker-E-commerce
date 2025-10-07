@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+
 import { motion } from "motion/react";
 import { cn } from "../../utils/utils";
 
@@ -16,7 +16,6 @@ export const ThreeDMarquee = ({
     const start = colIndex * chunkSize;
     return images.slice(start, start + chunkSize);
   });
-
   return (
     <div
       className={cn(
@@ -34,23 +33,28 @@ export const ThreeDMarquee = ({
           >
             {chunks.map((subarray, colIndex) => (
               <motion.div
-                key={colIndex + "marquee"}
                 animate={{ y: colIndex % 2 === 0 ? 100 : -100 }}
                 transition={{
                   duration: colIndex % 2 === 0 ? 10 : 15,
                   repeat: Infinity,
                   repeatType: "reverse",
                 }}
+                key={colIndex + "marquee"}
                 className="flex flex-col items-start gap-8"
               >
                 <GridLineVertical className="-left-4" offset="80px" />
-
                 {subarray.map((image, imageIndex) => (
-                  <div key={imageIndex + String(image)} className="relative">
+                  <div className="relative" key={imageIndex + image}>
                     <GridLineHorizontal className="-top-4" offset="20px" />
                     <motion.img
-                      whileHover={{ y: -10 }}
-                      transition={{ duration: 0.0003, ease: "easeInOut" }}
+                      whileHover={{
+                        y: -10,
+                      }}
+                      transition={{
+                        duration: 0.0003,
+                        ease: "easeInOut",
+                      }}
+                      key={imageIndex + image}
                       src={image}
                       alt={`Image ${imageIndex + 1}`}
                       className="aspect-[970/700] rounded-lg object-cover ring ring-gray-950/5 hover:shadow-2xl"
@@ -75,20 +79,20 @@ const GridLineHorizontal = ({
   className?: string;
   offset?: string;
 }) => {
-  const style: React.CSSProperties & Record<string, string> = {
-    "--background": "#ffffff",
-    "--color": "rgba(0, 0, 0, 0.2)",
-    "--height": "1px",
-    "--width": "5px",
-    "--fade-stop": "90%",
-    "--offset": offset || "200px",
-    "--color-dark": "rgba(255, 255, 255, 0.2)",
-    maskComposite: "exclude",
-  };
-
   return (
     <div
-      style={style}
+      style={
+        {
+          "--background": "#ffffff",
+          "--color": "rgba(0, 0, 0, 0.2)",
+          "--height": "1px",
+          "--width": "5px",
+          "--fade-stop": "90%",
+          "--offset": offset || "200px", //-100px if you want to keep the line inside
+          "--color-dark": "rgba(255, 255, 255, 0.2)",
+          maskComposite: "exclude",
+        } as React.CSSProperties
+      }
       className={cn(
         "absolute left-[calc(var(--offset)/2*-1)] h-[var(--height)] w-[calc(100%+var(--offset))]",
         "bg-[linear-gradient(to_right,var(--color),var(--color)_50%,transparent_0,transparent)]",
@@ -99,7 +103,7 @@ const GridLineHorizontal = ({
         "dark:bg-[linear-gradient(to_right,var(--color-dark),var(--color-dark)_50%,transparent_0,transparent)]",
         className
       )}
-    />
+    ></div>
   );
 };
 
@@ -110,20 +114,20 @@ const GridLineVertical = ({
   className?: string;
   offset?: string;
 }) => {
-  const style: React.CSSProperties & Record<string, string> = {
-    "--background": "#ffffff",
-    "--color": "rgba(0, 0, 0, 0.2)",
-    "--height": "5px",
-    "--width": "1px",
-    "--fade-stop": "90%",
-    "--offset": offset || "150px",
-    "--color-dark": "rgba(255, 255, 255, 0.2)",
-    maskComposite: "exclude",
-  };
-
   return (
     <div
-      style={style}
+      style={
+        {
+          "--background": "#ffffff",
+          "--color": "rgba(0, 0, 0, 0.2)",
+          "--height": "5px",
+          "--width": "1px",
+          "--fade-stop": "90%",
+          "--offset": offset || "150px", //-100px if you want to keep the line inside
+          "--color-dark": "rgba(255, 255, 255, 0.2)",
+          maskComposite: "exclude",
+        } as React.CSSProperties
+      }
       className={cn(
         "absolute top-[calc(var(--offset)/2*-1)] h-[calc(100%+var(--offset))] w-[var(--width)]",
         "bg-[linear-gradient(to_bottom,var(--color),var(--color)_50%,transparent_0,transparent)]",
@@ -134,8 +138,6 @@ const GridLineVertical = ({
         "dark:bg-[linear-gradient(to_bottom,var(--color-dark),var(--color-dark)_50%,transparent_0,transparent)]",
         className
       )}
-    />
+    ></div>
   );
 };
-
-export default ThreeDMarquee;

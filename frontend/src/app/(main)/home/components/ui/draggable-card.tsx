@@ -1,25 +1,26 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
+import { cn } from "../../utils/utils";
+import React, { useRef, useState, useEffect } from "react";
 import {
   motion,
   useMotionValue,
-  useAnimationControls,
-  useVelocity,
   useSpring,
   useTransform,
   animate,
+  useVelocity,
+  useAnimationControls,
 } from "motion/react";
-import { cn } from "../../utils/utils";
 
-type Props = {
+export const DraggableCardBody = ({
+  className,
+  children,
+}: {
   className?: string;
   children?: React.ReactNode;
-};
-
-export const DraggableCardBody = ({ className, children }: Props) => {
+}) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const cardRef = useRef<HTMLDivElement | null>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   const controls = useAnimationControls();
   const [constraints, setConstraints] = useState({
     top: 0,
@@ -28,10 +29,15 @@ export const DraggableCardBody = ({ className, children }: Props) => {
     bottom: 0,
   });
 
-  // physics
+  // physics biatch
   const velocityX = useVelocity(mouseX);
   const velocityY = useVelocity(mouseY);
-  const springConfig = { stiffness: 100, damping: 20, mass: 0.5 };
+
+  const springConfig = {
+    stiffness: 100,
+    damping: 20,
+    mass: 0.5,
+  };
 
   const rotateX = useSpring(
     useTransform(mouseY, [-300, 300], [25, -25]),
@@ -41,47 +47,52 @@ export const DraggableCardBody = ({ className, children }: Props) => {
     useTransform(mouseX, [-300, 300], [-25, 25]),
     springConfig
   );
+
   const opacity = useSpring(
     useTransform(mouseX, [-300, 0, 300], [0.8, 1, 0.8]),
     springConfig
   );
+
   const glareOpacity = useSpring(
     useTransform(mouseX, [-300, 0, 300], [0.2, 0, 0.2]),
     springConfig
   );
 
   useEffect(() => {
+    // Update constraints when component mounts or window resizes
     const updateConstraints = () => {
-      if (!cardRef.current) return;
-      // try to set reasonable drag constraints based on parent/container
-      const parent = cardRef.current.parentElement;
-      if (!parent) return;
-      const parentRect = parent.getBoundingClientRect();
-      const rect = cardRef.current.getBoundingClientRect();
-      // allow dragging within parent bounds
-      setConstraints({
-        top: parentRect.top - rect.top,
-        left: parentRect.left - rect.left,
-        right: parentRect.right - rect.right,
-        bottom: parentRect.bottom - rect.bottom,
-      });
+      if (typeof window !== "undefined") {
+        setConstraints({
+          top: -window.innerHeight / 2,
+          left: -window.innerWidth / 2,
+          right: window.innerWidth / 2,
+          bottom: window.innerHeight / 2,
+        });
+      }
     };
 
     updateConstraints();
+
+    // Add resize listener
     window.addEventListener("resize", updateConstraints);
-    return () => window.removeEventListener("resize", updateConstraints);
+
+    // Clean up
+    return () => {
+      window.removeEventListener("resize", updateConstraints);
+    };
   }, []);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { clientX, clientY } = e;
-    const rect = cardRef.current?.getBoundingClientRect() ?? {
-      width: 0,
-      height: 0,
-      left: 0,
-      top: 0,
-    };
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+    const { width, height, left, top } =
+      cardRef.current?.getBoundingClientRect() ?? {
+        width: 0,
+        height: 0,
+        left: 0,
+        top: 0,
+      };
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
     const deltaX = clientX - centerX;
     const deltaY = clientY - centerY;
     mouseX.set(deltaX);
@@ -103,13 +114,18 @@ export const DraggableCardBody = ({ className, children }: Props) => {
       }}
       onDragEnd={(event, info) => {
         document.body.style.cursor = "default";
+
         controls.start({
           rotateX: 0,
           rotateY: 0,
-          transition: { type: "spring", ...springConfig },
+          transition: {
+            type: "spring",
+            ...springConfig,
+          },
         });
         const currentVelocityX = velocityX.get();
         const currentVelocityY = velocityY.get();
+
         const velocityMagnitude = Math.sqrt(
           currentVelocityX * currentVelocityX +
             currentVelocityY * currentVelocityY
@@ -136,14 +152,12 @@ export const DraggableCardBody = ({ className, children }: Props) => {
           mass: 0.8,
         });
       }}
-      style={
-        {
-          rotateX,
-          rotateY,
-          opacity,
-          willChange: "transform",
-        } as unknown as React.CSSProperties
-      }
+      style={{
+        rotateX,
+        rotateY,
+        opacity,
+        willChange: "transform",
+      }}
       animate={controls}
       whileHover={{ scale: 1.02 }}
       onMouseMove={handleMouseMove}
@@ -155,17 +169,23 @@ export const DraggableCardBody = ({ className, children }: Props) => {
     >
       {children}
       <motion.div
-        style={{ opacity: glareOpacity }}
+        style={{
+          opacity: glareOpacity,
+        }}
         className="pointer-events-none absolute inset-0 bg-white select-none"
       />
     </motion.div>
   );
 };
 
-export const DraggableCardContainer = ({ className, children }: Props) => {
+export const DraggableCardContainer = ({
+  className,
+  children,
+}: {
+  className?: string;
+  children?: React.ReactNode;
+}) => {
   return (
     <div className={cn("[perspective:3000px]", className)}>{children}</div>
   );
 };
-
-export default DraggableCardBody;

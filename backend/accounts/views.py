@@ -116,7 +116,7 @@ class ForgotPasswordView(APIView):
         user = User.objects.get(email=email)
         uid = urlsafe_base64_encode(force_bytes(user.id))
         token = PasswordResetTokenGenerator().make_token(user)
-        link = f'http://localhost:3000/api/auth/reset-password/{uid}/{token}'
+        link = f'http://localhost:3000/auth/reset-password/{uid}/{token}'
 
         # Send email here in view (not serializer)
         body = f'Click the link below to reset your password \n{link}'
