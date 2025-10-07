@@ -1,7 +1,11 @@
 "use client";
 import { useState } from "react";
 
-export default function ResetPasswordPage({ params }: { params: { uid: string; token: string } }) {
+export default function ResetPasswordPage({
+  params,
+}: {
+  params: { uid: string; token: string };
+}) {
   const { uid, token } = params; // Extract uid and token from params
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -19,14 +23,17 @@ export default function ResetPasswordPage({ params }: { params: { uid: string; t
     }
 
     try {
-      const res = await fetch(`http://localhost:8000/api/auth/reset-password/${uid}/${token}/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ password, password2: confirmPassword }),
-        credentials: "include",
-      });
+      const res = await fetch(
+        `http://localhost:8000/api/auth/reset-password/${uid}/${token}/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ password, password2: confirmPassword }),
+          credentials: "include",
+        }
+      );
 
       if (res.ok) {
         setSuccess("Password reset successfully!");
@@ -46,12 +53,16 @@ export default function ResetPasswordPage({ params }: { params: { uid: string; t
     <div className="flex w-full h-full min-h-screen items-center justify-center bg-black">
       <div className="w-full max-w-md bg-black text-white p-8 rounded-2xl shadow-2xl border border-gray-800">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-3xl font-extrabold tracking-tight">Reset Password</h2>
+          <h2 className="text-3xl font-extrabold tracking-tight">
+            Reset Password
+          </h2>
         </div>
 
         <form className="space-y-5" onSubmit={handleSubmit}>
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">New Password</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              New Password
+            </label>
             <input
               type="password"
               value={password}
@@ -63,7 +74,9 @@ export default function ResetPasswordPage({ params }: { params: { uid: string; t
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Confirm New Password</label>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Confirm New Password
+            </label>
             <input
               type="password"
               value={confirmPassword}
