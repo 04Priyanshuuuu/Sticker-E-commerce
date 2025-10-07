@@ -161,16 +161,28 @@ class UserPasswordResetView(APIView):
    
     
 
+
 class UserLogoutView(APIView):
-    def post(self, request):
-        serializers = UserLogoutSerializer(data=request.data)
-        serializers.is_valid(raise_exception=True)
-        serializers.save()
+    authentication_classes = []  # disable JWT auth check
+    permission_classes = []      # allow anyone to call logout
+
+    def post(self, request, *args, **kwargs):
+        # Prepare success response
         response = Response({'msg': 'User logged out successfully'}, status=status.HTTP_200_OK)
-        response.delete_cookie('access')
-        response.delete_cookie('refresh')
+        # Delete JWT cookies (path must match how they were set)
+        response.delete_cookie('access', path='/')
+        response.delete_cookie('refresh', path='/')
         return response
-    
+
+class OrdersView(APIView):
+
+    def get(self, request):
+        # dummy data for testing
+        orders = [
+            {"id": 1, "status": "Delivered", "total": 499, "created_at": "2025-10-01T14:00:00Z"},
+            {"id": 2, "status": "Pending", "total": 899, "created_at": "2025-10-05T16:30:00Z"},
+        ]
+        return Response(orders, status=200)
 
 
 

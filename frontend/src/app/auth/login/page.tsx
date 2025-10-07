@@ -1,10 +1,12 @@
 "use client";
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { setUser } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,10 +23,25 @@ export default function LoginPage() {
       });
 
       if (res.ok) {
-        window.location.href = "/home"; // login ke baad redirect
+        // Update AuthContext immediately so pages (cart/profile/orders) update without a hard reload
+        try {
+          const profileRes = await fetch("http://localhost:8000/api/auth/profile/", {
+            credentials: "include",
+          });
+          if (profileRes.ok) {
+            const profileData = await profileRes.json();
+            setUser && setUser(profileData);
+          }
+        } catch (e) {
+          // ignore
+        }
+
+        window.location.href = "/"; // login ke baad redirect
       } else {
         const data = await res.json();
-        setError(data.error || "Invalid credentials");
+        setError(
+          data.errors?.non_field_errors?.[0] || "Invalid email or password"
+        );
       }
     } catch (error) {
       setError("Something went wrong!");
@@ -77,12 +94,12 @@ export default function LoginPage() {
             Sign in
           </button>
         </form>
-        
-        
+
         <div className="mt-6 text-center text-sm text-gray-500">
           <a href="/auth/forgot-password" className="text-gray-200 underline">
             Forgot Password?
-          </a><br/>
+          </a>
+          <br />
           Don’t have an account?{" "}
           <a href="/auth/signUp" className="text-gray-200 underline">
             Create one

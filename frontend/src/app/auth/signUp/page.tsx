@@ -37,7 +37,7 @@ export default function SignupPage() {
       if (res.ok) {
         setSuccess("Account created successfully!");
         setTimeout(() => {
-          window.location.href = "/home";
+          window.location.href = "/";
         }, 1000);
       } else {
         const data = await res.json();
