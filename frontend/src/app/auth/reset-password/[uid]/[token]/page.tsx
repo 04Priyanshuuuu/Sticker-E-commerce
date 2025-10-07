@@ -19,7 +19,7 @@ export default function ResetPasswordPage({ params }: { params: { uid: string; t
     }
 
     try {
-      const res = await fetch(`http://localhost:8000/api/auth/resetpassword/${params.uid}/${params.token}/`, {
+      const res = await fetch(`http://localhost:8000/api/auth/reset-password/${uid}/${token}/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export default function ResetPasswordPage({ params }: { params: { uid: string; t
         const data = await res.json();
         setError(data.token || data.password || "Failed to reset password");
       }
-    } catch (err) {
+    } catch {
       setError("Something went wrong!");
     }
   };
