@@ -22,7 +22,9 @@ export default function ForgotPasswordPage() {
 
       if (res.ok) {
         setSuccess("Password reset link sent to your email!");
-        window.location.href = "/auth/login"; 
+        setTimeout(() => {
+          window.location.href = "/auth/login";
+        }, 3000);
       } else {
         const data = await res.json();
         setError(data.error || "Failed to send reset link");

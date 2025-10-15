@@ -89,6 +89,18 @@ function Navbar({ className }: { className?: string }) {
                 ) : (
                   <>
                     <Link
+                      href="/profile"
+                      className="block px-2 py-1 hover:bg-black-900"
+                    >
+                      My Profile
+                    </Link>
+                    <Link
+                      href="/orders"
+                      className="block px-2 py-1 hover:bg-black-900"
+                    >
+                      My Orders
+                    </Link>
+                    <Link
                       href="/auth/login"
                       className="block px-2 py-1 hover:bg-black-900"
                     >

@@ -50,7 +50,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex w-full h-full items-center justify-center bg-black">
-      <div className="w-full h-full max-w-md bg-black text-white p-8 rounded-2xl shadow-2xl border border-gray-800">
+      <div className="w-full h-full max-w-md bg-black text-white p-8 rounded-2xl shadow-2xl border border-black">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-3xl font-extrabold tracking-tight">Sign in</h2>
           <span className="text-sm text-gray-400">Welcome back</span>

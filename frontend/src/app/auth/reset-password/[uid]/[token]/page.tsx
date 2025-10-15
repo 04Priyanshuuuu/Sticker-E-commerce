@@ -1,12 +1,8 @@
 "use client";
-import { useState } from "react";
+import { use, useState } from "react";
 
-export default function ResetPasswordPage({
-  params,
-}: {
-  params: { uid: string; token: string };
-}) {
-  const { uid, token } = params; // Extract uid and token from params
+export default function ResetPasswordPage({ params }: { params: Promise<{ uid: string; token: string }> }){
+  const { uid, token } = use(params); // ✅ unwrap Promise using React.use()
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
