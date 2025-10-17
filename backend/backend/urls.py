@@ -5,7 +5,7 @@ from products.views import ProductViewSet
 from orders.views import OrderViewSet
 
 router = DefaultRouter()
-router.register(r'products', ProductViewSet)
+router.register(r'products', ProductViewSet, basename='product')
 router.register(r'orders', OrderViewSet)
 
 urlpatterns = [
