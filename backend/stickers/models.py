@@ -12,6 +12,17 @@ class Sticker(models.Model):
     stock = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
+
+    CATEGORY_CHOICES = [
+    ('anime', 'Anime'),
+    ('cricketers', 'Cricketers'),
+    ('cars', 'Cars'),
+    ('nature', 'Nature'),
+    ]
+
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='anime')
+
+
     def __str__(self):
         return self.title
 

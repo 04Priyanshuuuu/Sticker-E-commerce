@@ -4,12 +4,15 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from .models import Sticker, Cart, CartItem, Wishlist, Order, OrderItem
 from .serializers import StickerSerializer, CartSerializer, OrderSerializer
+from rest_framework import viewsets, status, filters
 
 class StickerViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Sticker.objects.all().order_by('-created_at')
     serializer_class = StickerSerializer
     permission_classes = [AllowAny]
     lookup_field = 'slug'
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['category']
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
