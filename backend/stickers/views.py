@@ -10,7 +10,7 @@ class StickerViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Sticker.objects.all().order_by('-created_at')
     serializer_class = StickerSerializer
     permission_classes = [AllowAny]
-    lookup_field = 'slug'
+    lookup_field = 'id'
     filter_backends = [filters.SearchFilter]
     search_fields = ['category']
 

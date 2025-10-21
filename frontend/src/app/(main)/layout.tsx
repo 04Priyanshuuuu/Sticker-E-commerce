@@ -4,6 +4,8 @@ import "../globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { AuthProvider } from "../context/AuthContext"; // ✅ import yahan hai
+import AlertStack from "../components/ui/AlertStack";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +38,7 @@ export default function RootLayout({
             <Navbar />
           </div>
           {children}
+          <AlertStack />
           <Footer />
         </AuthProvider>
       </body>
