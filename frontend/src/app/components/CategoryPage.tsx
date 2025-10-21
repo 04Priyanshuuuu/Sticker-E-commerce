@@ -1,5 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
+import StickerHover from "./StickerHover";
+
+
 
 export default function CategoryPage({ category }: { category: string }) {
   const [stickers, setStickers] = useState<any[]>([]);
@@ -7,9 +10,13 @@ export default function CategoryPage({ category }: { category: string }) {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const API_BASE = (process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api").replace(/\/$/, "");
+  const API_BASE = (
+    process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api"
+  ).replace(/\/$/, "");
   // BACKEND_BASE used to prefix media paths (images)
-  const BACKEND_BASE = (process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://127.0.0.1:8000").replace(/\/$/, "");
+  const BACKEND_BASE = (
+    process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://127.0.0.1:8000"
+  ).replace(/\/$/, "");
 
   const getImageSrc = (s: any) => {
     const val = s.image || s.image_url || s.imageUrl || "";
@@ -24,7 +31,9 @@ export default function CategoryPage({ category }: { category: string }) {
   const fetchStickers = async (pageToFetch = page) => {
     try {
       setLoading(true);
-      const url = `${API_BASE}/stickers/?search=${encodeURIComponent(category)}&page=${pageToFetch}`;
+      const url = `${API_BASE}/stickers/?search=${encodeURIComponent(
+        category
+      )}&page=${pageToFetch}`;
       // If your API uses cookie auth and you want browser to include cookies, uncomment:
       // const res = await fetch(url, { credentials: 'include' });
       const res = await fetch(url);
@@ -85,13 +94,26 @@ export default function CategoryPage({ category }: { category: string }) {
     <div className="min-h-screen bg-black/[0.96] antialiased bg-grid-white/[0.02] px-4 py-6">
       <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
         {stickers.map((s) => (
-          <img
+          <div
             key={s.id}
-            src={getImageSrc(s)}
-            alt={s.title ?? "sticker"}
-            className="w-full rounded-2xl mb-4 hover:opacity-80 transition"
-            loading="lazy"
-          />
+            className="relative group break-inside-avoid mb-4 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
+          >
+            {/* Image */}
+            <img
+              src={getImageSrc(s)}
+              alt={s.title ?? "sticker"}
+              className="w-full h-auto object-cover relative z-0 transition-transform duration-300 group-hover:scale-[1.03]"
+              loading="lazy"
+            />
+
+            {/* Hover Overlay */}
+            <StickerHover
+              id={s.id}
+              name={s.title}
+              price={s.price ?? 0}
+              overlayOnly={true}
+            />
+          </div>
         ))}
       </div>
 
