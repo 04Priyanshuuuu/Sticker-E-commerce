@@ -37,6 +37,23 @@ def add_to_cart(request):
     item.save()
     return Response({'status': 'ok'})
 
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def update_cart_item(request, item_id):
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    quantity = request.data.get('quantity')
+
+    try:
+        item = cart.items.get(id=item_id)
+        item.quantity = quantity
+        item.save()
+        serializer = CartSerializer(cart)
+        return Response(serializer.data)
+    except CartItem.DoesNotExist:
+        return Response({'detail': 'Item not found in cart'}, status=404)
+
+
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

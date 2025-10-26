@@ -32,19 +32,25 @@ const StickerHover: React.FC<Props> = ({
     e?.stopPropagation();
 
     try {
-      const token = localStorage.getItem("access");
-      if (!token) {
+      // ✅ Check if user is logged in
+      const profileRes = await fetch(
+        "http://localhost:8000/api/auth/profile/",
+        {
+          credentials: "include",
+        }
+      );
+
+      if (!profileRes.ok) {
         alert("Please log in to add items to cart!");
         router.push("/auth/login");
         return;
       }
 
-      const res = await fetch("http://localhost:8000/api/cart/add/", {
+      // ✅ Add to cart API call
+      const addRes = await fetch("http://localhost:8000/api/cart/add/", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           sticker_id: id,
           size: "M",
@@ -52,8 +58,9 @@ const StickerHover: React.FC<Props> = ({
         }),
       });
 
-      const data = await res.json();
-      if (res.ok) {
+      const data = await addRes.json();
+
+      if (addRes.ok) {
         alert("Sticker added to cart 🛒");
       } else {
         alert(data.detail || "Failed to add to cart");
