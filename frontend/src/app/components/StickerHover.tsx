@@ -25,7 +25,7 @@ const StickerHover: React.FC<Props> = ({
 
   const handleBuyClick = (e?: React.SyntheticEvent) => {
     e?.stopPropagation();
-    router.push(`/stickers/${id}`);
+    router.push(`/buy/${id}`);
   };
 
   const handleAddToCart = async (e?: React.SyntheticEvent) => {

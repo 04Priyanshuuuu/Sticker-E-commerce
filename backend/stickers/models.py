@@ -38,11 +38,7 @@ class CartItem(models.Model):
 
     class Meta:
         unique_together = ('cart', 'sticker', 'size')
-
-    
-
-    
-        
+       
 
 class Order(models.Model):
     STATUS = (
