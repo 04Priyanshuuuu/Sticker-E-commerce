@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Sticker, Cart, CartItem, Wishlist, Order, OrderItem
+from .models import Sticker, Cart, CartItem,  Order, OrderItem
 
 class StickerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,12 +19,7 @@ class CartSerializer(serializers.ModelSerializer):
         model = Cart
         fields = ['id','user','items','created_at']
 
-class WishlistSerializer(serializers.ModelSerializer):
-    sticker = StickerSerializer(read_only=True)
-    sticker_id = serializers.PrimaryKeyRelatedField(queryset=Sticker.objects.all(), write_only=True, source='sticker')
-    class Meta:
-        model = Wishlist
-        fields = ['id','sticker','sticker_id','size','created_at']
+
 
 class OrderItemSerializer(serializers.ModelSerializer):
     sticker = StickerSerializer(read_only=True)

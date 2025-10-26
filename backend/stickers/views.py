@@ -2,7 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from .models import Sticker, Cart, CartItem, Wishlist, Order, OrderItem
+from .models import Sticker, Cart, CartItem,Order, OrderItem
 from .serializers import StickerSerializer, CartSerializer, OrderSerializer
 from rest_framework import viewsets, status, filters
 
@@ -37,17 +37,6 @@ def add_to_cart(request):
     item.save()
     return Response({'status': 'ok'})
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def toggle_wishlist(request):
-    user = request.user
-    sticker_id = request.data.get('sticker_id')
-    size = request.data.get('size','M')
-    obj, created = Wishlist.objects.get_or_create(user=user, sticker_id=sticker_id, size=size)
-    if not created:
-        obj.delete()
-        return Response({'status':'removed'})
-    return Response({'status':'added'})
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

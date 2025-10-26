@@ -39,14 +39,10 @@ class CartItem(models.Model):
     class Meta:
         unique_together = ('cart', 'sticker', 'size')
 
-class Wishlist(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wishlist')
-    sticker = models.ForeignKey(Sticker, on_delete=models.CASCADE)
-    size = models.CharField(max_length=20, default='M')
-    created_at = models.DateTimeField(auto_now_add=True)
+    
 
-    class Meta:
-        unique_together = ('user', 'sticker', 'size')
+    
+        
 
 class Order(models.Model):
     STATUS = (

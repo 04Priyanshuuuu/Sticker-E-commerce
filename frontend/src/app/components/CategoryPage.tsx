@@ -34,7 +34,13 @@ export default function CategoryPage({ category }: { category: string }) {
       const data = await res.json();
       const items = data.results ?? data ?? [];
       if (items.length === 0) setHasMore(false);
-      setStickers((prev) => [...prev, ...items]);
+      setStickers((prev) => {
+        const combined = [...prev, ...items];
+        const unique = combined.filter(
+          (obj, index, self) => index === self.findIndex((t) => t.id === obj.id)
+        );
+        return unique;
+      });
     } catch (err) {
       console.error("fetchStickers error:", err);
       setHasMore(false);
@@ -73,7 +79,7 @@ export default function CategoryPage({ category }: { category: string }) {
       <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
         {stickers.map((s) => (
           <div
-            key={s.id}
+            key={`${s.id}-${category}`}
             className="relative group break-inside-avoid mb-4 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             <img
