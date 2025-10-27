@@ -47,7 +47,7 @@ const StickerHover: React.FC<Props> = ({
       }
 
       // ✅ Add to cart API call
-      const addRes = await fetch("http://localhost:8000/api/stickers/cart/add/", {
+      const addRes = await fetch("http://localhost:8000/api/cart/add/", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

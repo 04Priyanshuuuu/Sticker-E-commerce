@@ -8,6 +8,8 @@ export default function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const withCredentials = false; // signup ke liye false rakho
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,22 +28,24 @@ export default function SignupPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-        name: fullName,
-        email,
-        password,
-        password2: confirmPassword,
-  }),
-        credentials: "include",
+          name: fullName,
+          email,
+          password,
+          password2: confirmPassword,
+        }),
+        credentials: withCredentials ? "include" : "omit",
       });
 
       if (res.ok) {
         setSuccess("Account created successfully!");
         setTimeout(() => {
-          window.location.href = "/";
+          window.location.replace("/");
         }, 1000);
       } else {
         const data = await res.json();
-        setError(data.password || data.email || data.detail || "Failed to sign up");
+        setError(
+          data.password || data.email || data.detail || "Failed to sign up"
+        );
       }
     } catch (err) {
       setError("Something went wrong!");
@@ -52,7 +56,9 @@ export default function SignupPage() {
     <div className="flex min-h-screen items-center justify-center bg-black">
       <div className="w-full max-w-md bg-black text-white p-8 rounded-2xl shadow-2xl border border-gray-800">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-3xl font-extrabold tracking-tight">Create Account</h2>
+          <h2 className="text-3xl font-extrabold tracking-tight">
+            Create Account
+          </h2>
           <span className="text-sm text-gray-400">Join us today</span>
         </div>
 

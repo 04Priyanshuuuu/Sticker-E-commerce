@@ -6,16 +6,16 @@ from orders.views import OrderViewSet
 from django.conf import settings
 from django.conf.urls.static import static
 
-router = DefaultRouter()
-router.register(r'products', ProductViewSet, basename='product')
-router.register(r'orders', OrderViewSet)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/', include('accounts.urls')),
-    # If your stickers app defines its own `api/` prefix inside stickers/urls.py that's fine.
-    # Otherwise consider exposing the router-based APIs under /api/ as well.
     path('api/stickers/', include('stickers.urls')),
+    path('api/cart/', include('cart.urls')),
+    path('api/orders/', include('orders.urls')),
+
+
     path("__reload__/", include("django_browser_reload.urls")),
 ]
 
