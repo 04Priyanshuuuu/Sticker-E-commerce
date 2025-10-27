@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import StickerViewSet, get_cart, add_to_cart,create_order, update_cart_item
 
 router = DefaultRouter()
-router.register(r'stickers', StickerViewSet, basename='sticker')
+router.register(r'', StickerViewSet, basename='sticker')
 
 urlpatterns = [
     path('', include(router.urls)),

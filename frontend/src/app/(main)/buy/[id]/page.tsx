@@ -31,7 +31,7 @@ const BuyPage = () => {
   const totalPrice = (sticker.price * quantity).toFixed(2);
 
   const handleAddToCart = async () => {
-    await fetch("http://localhost:8000/api/cart/add/", {
+    await fetch("http://localhost:8000/api/stickers/cart/add/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sticker_id: sticker.id, quantity }),

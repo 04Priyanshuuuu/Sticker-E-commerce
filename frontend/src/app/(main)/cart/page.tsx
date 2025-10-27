@@ -40,7 +40,7 @@ export default function CartPage() {
         const userData = await userRes.json();
         setUser(userData);
 
-        const cartRes = await fetch("http://localhost:8000/api/cart/", {
+        const cartRes = await fetch("http://localhost:8000/api/stickers/cart/", {
           credentials: "include",
         });
         const cartData = await cartRes.json();
@@ -74,7 +74,7 @@ export default function CartPage() {
 
     try {
       const res = await fetch(
-        `http://localhost:8000/api/cart/update/${itemId}/`,
+        `http://localhost:8000/api/stickers/cart/update/${itemId}/`,
         {
           method: "PATCH",
           credentials: "include",
@@ -102,7 +102,7 @@ export default function CartPage() {
   const removeItem = async (itemId) => {
     try {
       const res = await fetch(
-        `http://localhost:8000/api/cart/remove/${itemId}/`,
+        `http://localhost:8000/api/stickers/cart/remove/${itemId}/`,
         {
           method: "DELETE",
           credentials: "include",

@@ -9,10 +9,10 @@ export default function CategoryPage({ category }: { category: string }) {
   const [loading, setLoading] = useState(false);
 
   const API_BASE = (
-    process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8000/api"
+    process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api"
   ).replace(/\/$/, "");
   const BACKEND_BASE = (
-    process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://127.0.0.1:8000"
+    process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:8000"
   ).replace(/\/$/, "");
 
   const getImageSrc = (s: any) => {

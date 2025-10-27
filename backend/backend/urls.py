@@ -15,7 +15,7 @@ urlpatterns = [
     path('api/auth/', include('accounts.urls')),
     # If your stickers app defines its own `api/` prefix inside stickers/urls.py that's fine.
     # Otherwise consider exposing the router-based APIs under /api/ as well.
-    path('', include('stickers.urls')),
+    path('api/stickers/', include('stickers.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
 

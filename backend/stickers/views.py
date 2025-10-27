@@ -7,9 +7,10 @@ from .serializers import StickerSerializer, CartSerializer, OrderSerializer
 from rest_framework import viewsets, status, filters
 
 class StickerViewSet(viewsets.ReadOnlyModelViewSet):
+    authentication_classes = []  
+    permission_classes = [AllowAny]
     queryset = Sticker.objects.all().order_by('-created_at')
     serializer_class = StickerSerializer
-    permission_classes = [AllowAny]
     lookup_field = 'id'
     filter_backends = [filters.SearchFilter]
     search_fields = ['category']
