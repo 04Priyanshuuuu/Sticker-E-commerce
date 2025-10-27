@@ -7,31 +7,29 @@ import {
   Plus,
   Minus,
   Trash2,
-  Heart,
-  Truck,
-  Shield,
   CreditCard,
   ArrowRight,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import StickerHover from "@/app/components/StickerHover";
 
 export default function CartPage() {
-  const [cart, setCart] = useState([]);
-  const [user, setUser] = useState(null);
+  const [cart, setCart] = useState<any[]>([]);
+  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [updatingItem, setUpdatingItem] = useState(null);
-  const [relatedStickers, setRelatedStickers] = useState([]);
+  const [updatingItem, setUpdatingItem] = useState<number | null>(null);
+  const [relatedStickers, setRelatedStickers] = useState<any[]>([]);
   const router = useRouter();
 
-  // Fetch user and cart
+  // 🟣 Fetch user + cart
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        // 1️⃣ Check login
         const userRes = await fetch("http://localhost:8000/api/auth/profile/", {
           credentials: "include",
         });
+
         if (!userRes.ok) {
           setUser(null);
           setLoading(false);
@@ -41,19 +39,16 @@ export default function CartPage() {
         const userData = await userRes.json();
         setUser(userData);
 
-        // 2️⃣ Fetch actual cart (GET)
-        const cartRes = await fetch(
-          "http://localhost:8000/api/cart/",
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
+        const cartRes = await fetch("http://localhost:8000/api/cart/", {
+          method: "GET",
+          credentials: "include",
+        });
 
         if (!cartRes.ok) throw new Error("Failed to fetch cart");
-
         const cartData = await cartRes.json();
-        setCart(cartData.items || []);
+
+        // ✅ Defensive: check if cartData.items exists
+        setCart(Array.isArray(cartData.items) ? cartData.items : []);
       } catch (err) {
         console.error("Cart fetch error:", err);
       } finally {
@@ -64,7 +59,7 @@ export default function CartPage() {
     fetchCart();
   }, []);
 
-  // Related stickers
+  // 🟣 Related stickers
   useEffect(() => {
     if (cart.length > 0) {
       const category = cart[0]?.sticker?.category;
@@ -72,12 +67,15 @@ export default function CartPage() {
 
       fetch(`http://localhost:8000/api/stickers/?search=${category}`)
         .then((res) => res.json())
-        .then(setRelatedStickers)
+        .then((data) => {
+          if (Array.isArray(data)) setRelatedStickers(data);
+        })
         .catch(console.error);
     }
   }, [cart]);
 
-  const updateQuantity = async (itemId, newQuantity) => {
+  // 🟣 Update quantity
+  const updateQuantity = async (itemId: number, newQuantity: number) => {
     if (newQuantity < 1) return;
     setUpdatingItem(itemId);
 
@@ -96,8 +94,8 @@ export default function CartPage() {
 
       const updatedItem = await res.json();
 
-      setCart(
-        cart.map((item) =>
+      setCart((prev) =>
+        prev.map((item) =>
           item.id === itemId ? { ...item, ...updatedItem } : item
         )
       );
@@ -108,7 +106,8 @@ export default function CartPage() {
     }
   };
 
-  const removeItem = async (itemId) => {
+  // 🟣 Remove item
+  const removeItem = async (itemId: number) => {
     try {
       const res = await fetch(
         `http://localhost:8000/api/cart/remove/${itemId}/`,
@@ -117,12 +116,14 @@ export default function CartPage() {
           credentials: "include",
         }
       );
-      if (res.ok) setCart(cart.filter((item) => item.id !== itemId));
+      if (res.ok)
+        setCart((prev) => prev.filter((item) => item.id !== itemId));
     } catch (err) {
       console.error(err);
     }
   };
 
+  // 🟣 Loading spinner
   if (loading) {
     return (
       <main className="min-h-screen bg-black text-white flex items-center justify-center">
@@ -135,6 +136,7 @@ export default function CartPage() {
     );
   }
 
+  // 🟣 If user not logged in
   if (!user) {
     return (
       <main className="min-h-screen bg-black text-white flex items-center justify-center">
@@ -154,9 +156,11 @@ export default function CartPage() {
     );
   }
 
+  // 🟣 Price calculations
   const subtotal = Array.isArray(cart)
     ? cart.reduce(
-        (acc, item) => acc + item.sticker.price * (item.quantity || 1),
+        (acc, item) =>
+          acc + (item.sticker?.price || 0) * (item.quantity || 1),
         0
       )
     : 0;
@@ -198,25 +202,31 @@ export default function CartPage() {
                     transition={{ delay: index * 0.1 }}
                     className="flex flex-col md:flex-row items-center gap-8 bg-gray-800/30 backdrop-blur-xl rounded-2xl p-6 border border-gray-700/30 hover:border-purple-500/30 transition-all duration-300"
                   >
-                    {/* Product Image */}
-                    <div className="flex-1 flex justify-center">
-                      <img
-                        src={item.sticker.image}
-                        alt={item.sticker.name}
-                        className="w-40 h-40 object-contain rounded-2xl shadow-lg"
+                    {/* 🟢 Product Image fix: alt text corrected */}
+                    <div className="flex justify-center items-center w-40 h-40 bg-gray-900/30 rounded-2xl overflow-hidden">
+                      <Image
+                        src={
+                          item.sticker?.image?.startsWith("http")
+                            ? item.sticker.image
+                            : `http://localhost:8000${item.sticker?.image || ""}`
+                        }
+                        alt={item.sticker?.name || "Sticker image"}
+                        width={160}
+                        height={160}
+                        className="object-contain rounded-xl bg-gray-900/30 p-2"
                       />
                     </div>
 
                     {/* Product Details */}
                     <div className="flex-1 space-y-3">
                       <h2 className="text-2xl font-bold">
-                        {item.sticker.name}
+                        {item.sticker?.name}
                       </h2>
                       <p className="text-gray-400 capitalize">
-                        Category: {item.sticker.category}
+                        Category: {item.sticker?.category}
                       </p>
                       <p className="text-xl font-semibold">
-                        Price: ₹{item.sticker.price}
+                        Price: ₹{item.sticker?.price}
                       </p>
 
                       {/* Quantity Controls */}
@@ -242,7 +252,8 @@ export default function CartPage() {
                       </div>
 
                       <p className="text-lg">
-                        Total: ₹{item.sticker.price * (item.quantity || 1)}
+                        Total: ₹
+                        {(item.sticker?.price || 0) * (item.quantity || 1)}
                       </p>
 
                       <div className="flex gap-3">

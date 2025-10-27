@@ -41,7 +41,7 @@ const BuyPage = () => {
 
   return (
     <div className="text-white px-8 py-12 bg-black min-h-screen">
-      <div className="flex flex-col mt-20 md:flex-row items-center gap-10">
+      <div className="flex flex-col mt-30 md:flex-row items-center gap-10">
         <div className="flex-1 flex justify-center">
           <img
             src={sticker.image}
