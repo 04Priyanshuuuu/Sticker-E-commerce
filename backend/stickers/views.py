@@ -27,16 +27,16 @@ def get_cart(request):
 def add_to_cart(request):
     user = request.user
     sticker_id = request.data.get('sticker_id')
-    size = request.data.get('size', 'M')
-    qty = int(request.data.get('quantity', 1))
+    if not sticker_id:
+        return Response({"error": "Sticker ID required"}, status=400)
     cart, _ = Cart.objects.get_or_create(user=user)
-    item, created = CartItem.objects.get_or_create(cart=cart, sticker_id=sticker_id, size=size)
+    item, created = CartItem.objects.get_or_create(cart=cart, sticker_id=sticker_id)
     if not created:
-        item.quantity += qty
-    else:
-        item.quantity = qty
+        item.quantity += 1
     item.save()
-    return Response({'status': 'ok'})
+    serializer = CartSerializer(cart)
+    return Response(serializer.data)
+
 
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])

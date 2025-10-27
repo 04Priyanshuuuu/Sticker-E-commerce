@@ -159,6 +159,37 @@ class UserPasswordResetView(APIView):
         except (DjangoUnicodeDecodeError, User.DoesNotExist):
             return Response({"token": "Token is not valid or expired."}, status=status.HTTP_400_BAD_REQUEST)
    
+# in views.py
+from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework import status
+
+class CookieTokenRefreshView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        refresh_token = request.COOKIES.get('refresh')
+        if refresh_token is None:
+            return Response({'error': 'No refresh token provided'}, status=status.HTTP_401_UNAUTHORIZED)
+        try:
+            refresh = RefreshToken(refresh_token)
+            access_token = str(refresh.access_token)
+
+            response = Response({'access': access_token}, status=status.HTTP_200_OK)
+            # Update access cookie
+            response.set_cookie(
+                key='access',
+                value=access_token,
+                httponly=True,
+                samesite='Lax',
+                secure=False,
+                max_age=15 * 60
+            )
+            return response
+        except Exception as e:
+            return Response({'error': 'Invalid or expired refresh token'}, status=status.HTTP_401_UNAUTHORIZED)
     
 
 

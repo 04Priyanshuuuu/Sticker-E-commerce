@@ -1,7 +1,15 @@
 from django.urls import path
-from accounts.views import (UserChangePasswordView, UserPasswordResetView, UserProfileView, UserRegistrationView,
-UserLoginView,ForgotPasswordView, UserLogoutView, OrdersView)
-from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView, TokenVerifyView
+from accounts.views import (
+    UserChangePasswordView, 
+    UserPasswordResetView, 
+    UserProfileView, 
+    UserRegistrationView,
+    UserLoginView,
+    ForgotPasswordView, 
+    UserLogoutView, 
+    OrdersView,
+    CookieTokenRefreshView,
+)
 
 urlpatterns = [
     path("register/", UserRegistrationView.as_view(), name="register"),
@@ -10,10 +18,7 @@ urlpatterns = [
     path("changepassword/", UserChangePasswordView.as_view(), name="changepassword"),
     path("forgot-password/", ForgotPasswordView.as_view(), name="forgot-password"),
     path("reset-password/<uid>/<token>/", UserPasswordResetView.as_view(), name="reset-password"),
-     path('logout/', UserLogoutView.as_view(), name='logout'),
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
-    path("api/orders/", OrdersView.as_view(), name="orders"),
-
-] 
+    path("logout/", UserLogoutView.as_view(), name="logout"),
+    path("refresh/", CookieTokenRefreshView.as_view(), name="cookie_token_refresh"), 
+    path("orders/", OrdersView.as_view(), name="orders"),
+]

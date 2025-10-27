@@ -28,6 +28,7 @@ export default function CartPage() {
   useEffect(() => {
     const fetchCart = async () => {
       try {
+        // 1️⃣ Check login
         const userRes = await fetch("http://localhost:8000/api/auth/profile/", {
           credentials: "include",
         });
@@ -40,13 +41,21 @@ export default function CartPage() {
         const userData = await userRes.json();
         setUser(userData);
 
-        const cartRes = await fetch("http://localhost:8000/api/stickers/cart/", {
-          credentials: "include",
-        });
+        // 2️⃣ Fetch actual cart (GET)
+        const cartRes = await fetch(
+          "http://localhost:8000/api/stickers/cart/",
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        if (!cartRes.ok) throw new Error("Failed to fetch cart");
+
         const cartData = await cartRes.json();
         setCart(cartData.items || []);
       } catch (err) {
-        console.error(err);
+        console.error("Cart fetch error:", err);
       } finally {
         setLoading(false);
       }
@@ -233,8 +242,7 @@ export default function CartPage() {
                       </div>
 
                       <p className="text-lg">
-                        Total: ₹
-                        {item.sticker.price * (item.quantity || 1)}
+                        Total: ₹{item.sticker.price * (item.quantity || 1)}
                       </p>
 
                       <div className="flex gap-3">
