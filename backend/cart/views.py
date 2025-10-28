@@ -1,7 +1,6 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status
 from .models import Cart, CartItem
 from .serializers import CartSerializer
 
@@ -41,3 +40,19 @@ def update_cart_item(request, item_id):
         return Response(serializer.data)
     except CartItem.DoesNotExist:
         return Response({'detail': 'Item not found in cart'}, status=404)
+
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def remove_cart_item(request, item_id):
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    try:
+        item = cart.items.get(id=item_id)
+        item.delete()
+        serializer = CartSerializer(cart)
+        return Response(serializer.data)
+    except CartItem.DoesNotExist:
+        return Response({'detail': 'Item not found in cart'}, status=404)
+
+

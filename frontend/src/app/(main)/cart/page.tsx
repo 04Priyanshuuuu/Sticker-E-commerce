@@ -92,13 +92,8 @@ export default function CartPage() {
 
       if (!res.ok) throw new Error("Failed to update quantity");
 
-      const updatedItem = await res.json();
-
-      setCart((prev) =>
-        prev.map((item) =>
-          item.id === itemId ? { ...item, ...updatedItem } : item
-        )
-      );
+      const updatedCart = await res.json();
+      setCart(Array.isArray(updatedCart.items) ? updatedCart.items : []);
     } catch (err) {
       console.error(err);
     } finally {
@@ -116,8 +111,7 @@ export default function CartPage() {
           credentials: "include",
         }
       );
-      if (res.ok)
-        setCart((prev) => prev.filter((item) => item.id !== itemId));
+      if (res.ok) setCart((prev) => prev.filter((item) => item.id !== itemId));
     } catch (err) {
       console.error(err);
     }
@@ -159,14 +153,13 @@ export default function CartPage() {
   // 🟣 Price calculations
   const subtotal = Array.isArray(cart)
     ? cart.reduce(
-        (acc, item) =>
-          acc + (item.sticker?.price || 0) * (item.quantity || 1),
+        (acc, item) => acc + (item.sticker?.price || 0) * (item.quantity || 1),
         0
       )
     : 0;
 
-  const deliveryCharge = subtotal > 500 ? 0 : 50;
-  const discount = subtotal > 1000 ? subtotal * 0.1 : 0;
+  const deliveryCharge = 0; // Free delivery for all orders
+  const discount = 0;
   const total = subtotal + deliveryCharge - discount;
 
   return (
@@ -208,7 +201,9 @@ export default function CartPage() {
                         src={
                           item.sticker?.image?.startsWith("http")
                             ? item.sticker.image
-                            : `http://localhost:8000${item.sticker?.image || ""}`
+                            : `http://localhost:8000${
+                                item.sticker?.image || ""
+                              }`
                         }
                         alt={item.sticker?.name || "Sticker image"}
                         width={160}
