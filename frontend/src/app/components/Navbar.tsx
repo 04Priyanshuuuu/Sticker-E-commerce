@@ -4,12 +4,16 @@ import { HoveredLink, Menu, MenuItem } from "./ui/navbar-menu";
 import { cn } from "../utils/utils";
 import Link from "next/link";
 import { ShoppingCart, UserCircle } from "lucide-react";
+import { useCartStore } from "@/app/store/useCartStore";
 import { useAuth } from "../context/AuthContext"; // ✅ import auth hook
 
 function Navbar({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
   const [profileOpen, setProfileOpen] = useState(false);
   const { user, logout } = useAuth(); // ✅ get user & logout from context
+  const totalItems = useCartStore((state) =>
+    state.cart.reduce((acc, i) => acc + i.quantity, 0)
+  );
 
   const handleLogout = async () => {
     await logout(); // logout function from AuthContext
@@ -48,10 +52,15 @@ function Navbar({ className }: { className?: string }) {
         </Link>
 
         {/* Right Side Icons */}
-        <div className="flex items-center space-x-6 ml-60">
+        <div className="flex items-center space-x-6 ml-60 relative">
           {/* Cart */}
-          <Link href="/cart">
+          <Link href="/cart" className="relative">
             <ShoppingCart className="w-6 h-6 cursor-pointer" />
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                {totalItems}
+              </span>
+            )}
           </Link>
 
           {/* Profile Section */}

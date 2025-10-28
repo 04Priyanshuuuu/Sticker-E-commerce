@@ -1,9 +1,9 @@
 "use client";
-import { useStore } from "@/app/store/useStore";
+import { useCartStore } from "@/app/store/useCartStore";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function AlertStack() {
-  const alerts = useStore((s) => s.alerts);
+  const alerts = useCartStore((s) => s.alerts);
 
   return (
     <div className="fixed inset-x-0 top-6 z-[9999] flex flex-col items-center space-y-2">

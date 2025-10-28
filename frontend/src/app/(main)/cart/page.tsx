@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useCartStore } from "@/app/store/useCartStore";
 import {
   ShoppingCart,
   Plus,
@@ -21,6 +22,7 @@ export default function CartPage() {
   const [updatingItem, setUpdatingItem] = useState<number | null>(null);
   const [relatedStickers, setRelatedStickers] = useState<any[]>([]);
   const router = useRouter();
+  const { cart: globalCart, setCart: setGlobalCart } = useCartStore();
 
   // 🟣 Fetch user + cart
   useEffect(() => {
@@ -46,9 +48,9 @@ export default function CartPage() {
 
         if (!cartRes.ok) throw new Error("Failed to fetch cart");
         const cartData = await cartRes.json();
-
-        // ✅ Defensive: check if cartData.items exists
-        setCart(Array.isArray(cartData.items) ? cartData.items : []);
+        const items = Array.isArray(cartData.items) ? cartData.items : [];
+        setCart(items);
+        setGlobalCart(items);
       } catch (err) {
         console.error("Cart fetch error:", err);
       } finally {
@@ -57,7 +59,7 @@ export default function CartPage() {
     };
 
     fetchCart();
-  }, []);
+  }, [setCart]);
 
   // 🟣 Related stickers
   useEffect(() => {
@@ -93,7 +95,9 @@ export default function CartPage() {
       if (!res.ok) throw new Error("Failed to update quantity");
 
       const updatedCart = await res.json();
-      setCart(Array.isArray(updatedCart.items) ? updatedCart.items : []);
+      const items = Array.isArray(updatedCart.items) ? updatedCart.items : [];
+      setCart(items);
+      setGlobalCart(items);
     } catch (err) {
       console.error(err);
     } finally {
@@ -111,7 +115,11 @@ export default function CartPage() {
           credentials: "include",
         }
       );
-      if (res.ok) setCart((prev) => prev.filter((item) => item.id !== itemId));
+      if (res.ok) {
+        const newItems = cart.filter((item) => item.id !== itemId);
+        setCart(newItems);
+        setGlobalCart(newItems); // ✅ Zustand update
+      }
     } catch (err) {
       console.error(err);
     }
