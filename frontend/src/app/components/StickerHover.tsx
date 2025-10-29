@@ -3,6 +3,7 @@ import React from "react";
 import { Plus, Share2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { useCartStore } from "@/app/store/useCartStore";
 
 type Props = {
   id: number;
@@ -22,6 +23,7 @@ const StickerHover: React.FC<Props> = ({
   className = "",
 }) => {
   const router = useRouter();
+  const addAlert = useCartStore((s) => s.addAlert);
 
   const handleBuyClick = (e?: React.SyntheticEvent) => {
     e?.stopPropagation();
@@ -32,7 +34,6 @@ const StickerHover: React.FC<Props> = ({
     e?.stopPropagation();
 
     try {
-      // ✅ Check if user is logged in
       const profileRes = await fetch(
         "http://localhost:8000/api/auth/profile/",
         {
@@ -41,12 +42,14 @@ const StickerHover: React.FC<Props> = ({
       );
 
       if (!profileRes.ok) {
-        alert("Please log in to add items to cart!");
+        addAlert({
+          type: "error",
+          message: "Please log in to add items to cart!",
+        });
         router.push("/auth/login");
         return;
       }
 
-      // ✅ Add to cart API call
       const addRes = await fetch("http://localhost:8000/api/cart/add/", {
         method: "POST",
         credentials: "include",
@@ -61,13 +64,16 @@ const StickerHover: React.FC<Props> = ({
       const data = await addRes.json();
 
       if (addRes.ok) {
-        alert("Sticker added to cart 🛒");
+        addAlert({ type: "success", message: "Sticker added to cart 🛒" });
       } else {
-        alert(data.detail || "Failed to add to cart");
+        addAlert({
+          type: "error",
+          message: data.detail || "Failed to add to cart",
+        });
       }
     } catch (error) {
       console.error("Cart error:", error);
-      alert("Error adding to cart");
+      addAlert({ type: "error", message: "Error adding to cart" });
     }
   };
 

@@ -1,24 +1,40 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { HoveredLink, Menu, MenuItem } from "./ui/navbar-menu";
 import { cn } from "../utils/utils";
 import Link from "next/link";
 import { ShoppingCart, UserCircle } from "lucide-react";
 import { useCartStore } from "@/app/store/useCartStore";
-import { useAuth } from "../context/AuthContext"; // ✅ import auth hook
+import { useAuth } from "../context/AuthContext";
 
-function Navbar({ className }: { className?: string }) {
+function NavbarDesktop({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
   const [profileOpen, setProfileOpen] = useState(false);
-  const { user, logout } = useAuth(); // ✅ get user & logout from context
+  const { user, logout } = useAuth();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const totalItems = useCartStore((state) =>
     state.cart.reduce((acc, i) => acc + i.quantity, 0)
   );
 
   const handleLogout = async () => {
-    await logout(); // logout function from AuthContext
-    window.location.href = "/"; // redirect to home
+    await logout();
+    window.location.href = "/";
   };
+
+  // ✅ Dropdown close when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setProfileOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
 
   return (
     <div
@@ -30,7 +46,10 @@ function Navbar({ className }: { className?: string }) {
       {/* Center Menu */}
       <Menu setActive={setActive}>
         {/* Leftmost Logo */}
-        <Link href="/" className="text-2xl font-bold mr-60">
+        <Link
+          href="/"
+          className="text-xl sm:text-2xl md:text-2xl font-bold mr-10 sm:mr-40 md:mr-60"
+        >
           Sticke
         </Link>
 
@@ -39,7 +58,7 @@ function Navbar({ className }: { className?: string }) {
         </Link>
 
         <MenuItem setActive={setActive} active={active} item="Categories">
-          <div className="flex flex-col space-y-4 text-sm">
+          <div className="flex flex-col space-y-3 sm:space-y-4 text-xs sm:text-sm">
             <HoveredLink href="/categories/anime">Anime</HoveredLink>
             <HoveredLink href="/categories/cars">Cars</HoveredLink>
             <HoveredLink href="/categories/cricketers">Cricketers</HoveredLink>
@@ -52,28 +71,28 @@ function Navbar({ className }: { className?: string }) {
         </Link>
 
         {/* Right Side Icons */}
-        <div className="flex items-center space-x-6 ml-60 relative">
+        <div className="flex items-center space-x-4 sm:space-x-6 ml-8 sm:ml-40 md:ml-60 relative">
           {/* Cart */}
           <Link href="/cart" className="relative">
-            <ShoppingCart className="w-6 h-6 cursor-pointer" />
+            <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer" />
             {totalItems > 0 && (
-              <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+              <span className="absolute -top-2 -right-3 bg-red-600 text-white text-[10px] sm:text-xs font-bold px-1.5 py-0.5 sm:px-2 rounded-full">
                 {totalItems}
               </span>
             )}
           </Link>
 
-          {/* Profile Section */}
-          <div className="relative">
+          {/* Profile */}
+          <div className="relative" ref={dropdownRef}>
             <UserCircle
-              className="w-8 h-8 cursor-pointer"
+              className="w-7 h-7 sm:w-8 sm:h-8 cursor-pointer"
               onClick={() => setProfileOpen(!profileOpen)}
             />
             {profileOpen && (
-              <div className="absolute right-0 mt-2 w-40 bg-black shadow-lg rounded-lg p-2 text-sm">
+              <div className="absolute right-0 mt-2 w-36 sm:w-40 bg-black shadow-lg rounded-lg p-2 text-xs sm:text-sm">
                 {user ? (
                   <>
-                    <p className="block px-2 py-1 text-gray-400">
+                    <p className="block px-2 py-1 text-gray-400 truncate">
                       {user.username}
                     </p>
                     <Link
@@ -90,25 +109,13 @@ function Navbar({ className }: { className?: string }) {
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="w-full text-left px-2 py-1 hover:bg-black-900 hover:cursor-pointer"
+                      className="w-full text-left px-2 py-1 hover:bg-black-900"
                     >
                       Logout
                     </button>
                   </>
                 ) : (
                   <>
-                    <Link
-                      href="/profile"
-                      className="block px-2 py-1 hover:bg-black-900"
-                    >
-                      My Profile
-                    </Link>
-                    <Link
-                      href="/orders"
-                      className="block px-2 py-1 hover:bg-black-900"
-                    >
-                      My Orders
-                    </Link>
                     <Link
                       href="/auth/login"
                       className="block px-2 py-1 hover:bg-black-900"
@@ -132,4 +139,4 @@ function Navbar({ className }: { className?: string }) {
   );
 }
 
-export default Navbar;
+export default NavbarDesktop;

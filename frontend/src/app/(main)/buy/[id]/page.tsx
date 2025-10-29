@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { useCartStore } from "@/app/store/useCartStore";
 
 const BuyPage = () => {
   const router = useRouter();
@@ -8,6 +9,8 @@ const BuyPage = () => {
   const [sticker, setSticker] = useState(null);
   const [related, setRelated] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const addAlert = useCartStore((s) => s.addAlert);
+
 
   useEffect(() => {
     if (!id) return;
@@ -26,17 +29,56 @@ const BuyPage = () => {
     fetchSticker();
   }, [id]);
 
-  if (!sticker) return <div className="text-center mt-10 text-white">Loading...</div>;
+  if (!sticker)
+    return <div className="text-center mt-10 text-white">Loading...</div>;
 
   const totalPrice = (sticker.price * quantity).toFixed(2);
 
-  const handleAddToCart = async () => {
-    await fetch("http://localhost:8000/api/stickers/cart/add/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sticker_id: sticker.id, quantity }),
-    });
-    alert("Added to cart!");
+  const handleAddToCart = async (e?: React.SyntheticEvent) => {
+    e?.stopPropagation();
+
+    try {
+      const profileRes = await fetch(
+        "http://localhost:8000/api/auth/profile/",
+        {
+          credentials: "include",
+        }
+      );
+
+      if (!profileRes.ok) {
+        addAlert({
+          type: "error",
+          message: "Please log in to add items to cart!",
+        });
+        router.push("/auth/login");
+        return;
+      }
+
+      const addRes = await fetch("http://localhost:8000/api/cart/add/", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sticker_id: id,
+          size: "M",
+          quantity: 1,
+        }),
+      });
+
+      const data = await addRes.json();
+
+      if (addRes.ok) {
+        addAlert({ type: "success", message: "Sticker added to cart 🛒" });
+      } else {
+        addAlert({
+          type: "error",
+          message: data.detail || "Failed to add to cart",
+        });
+      }
+    } catch (error) {
+      console.error("Cart error:", error);
+      addAlert({ type: "error", message: "Error adding to cart" });
+    }
   };
 
   return (
@@ -52,7 +94,9 @@ const BuyPage = () => {
 
         <div className="flex-1 space-y-4">
           <h2 className="text-3xl font-bold">{sticker.name}</h2>
-          <p className="text-gray-400 capitalize">Category: {sticker.category}</p>
+          <p className="text-gray-400 capitalize">
+            Category: {sticker.category}
+          </p>
           <p className="text-2xl font-semibold">Price: ₹{sticker.price}</p>
 
           <div className="flex items-center gap-4">
