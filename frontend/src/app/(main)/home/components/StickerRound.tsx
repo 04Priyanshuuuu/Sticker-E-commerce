@@ -21,9 +21,7 @@ export default function StickerRound() {
   useEffect(() => {
     async function fetchPopular() {
       try {
-        const res = await fetch(
-          "http://127.0.0.1:8000/api/stickers/?is_popular=true"
-        );
+        const res = await fetch("http://127.0.0.1:8000/api/stickers/?is_popular=true");
         const data = await res.json();
         setStickers(data);
       } catch (error) {
@@ -112,13 +110,11 @@ export default function StickerRound() {
               transition-transform duration-300"
             >
               <img
-                src={sticker.image || "/placeholder.png"}
-                alt={sticker.name || "Sticker"}
+                src={sticker.image}
+                alt={sticker.name}
                 className="w-full h-[160px] object-cover rounded-md"
               />
-              <p className="mt-2 text-sm text-gray-300">
-                {sticker.name || "Sticker Name"}
-              </p>
+              <p className="mt-2 text-sm text-gray-300">{sticker.name}</p>
             </div>
           ))}
         </div>

@@ -56,7 +56,7 @@ const slides = [
     id: 2,
     content: (
       <div className="flex items-center justify-center h-full w-full bg-blue-500 text-white">
-        <h1 className="text-4xl font-bold"> Slide 2 Content</h1>
+        <h1 className="text-2xl font-bold"> Slide 2 Content(yaha  college ki images ka section add kro clg ki images aur unka print bhi le skte log chhaiye toh)</h1>
       </div>
     ),
   },
