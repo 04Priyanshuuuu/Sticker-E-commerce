@@ -14,6 +14,8 @@ urlpatterns = [
     path('api/stickers/', include('stickers.urls')),
     path('api/cart/', include('cart.urls')),
     path('api/orders/', include('orders.urls')),
+    path('api/profiles/', include('profiles.urls')),
+
 
 
     path("__reload__/", include("django_browser_reload.urls")),

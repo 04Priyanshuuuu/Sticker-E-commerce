@@ -205,15 +205,7 @@ class UserLogoutView(APIView):
         response.delete_cookie('refresh', path='/')
         return response
 
-class OrdersView(APIView):
 
-    def get(self, request):
-        # dummy data for testing
-        orders = [
-            {"id": 1, "status": "Delivered", "total": 499, "created_at": "2025-10-01T14:00:00Z"},
-            {"id": 2, "status": "Pending", "total": 899, "created_at": "2025-10-05T16:30:00Z"},
-        ]
-        return Response(orders, status=200)
 
 
 

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "products",
     "cart",
     "orders",
+    "profiles",
 ]
 
 TAILWIND_APP_NAME='theme'

@@ -51,15 +51,17 @@ export default function OrdersPage() {
   const cancelOrder = async (orderId) => {
     if (!confirm("Kya aap sure hain? Ye order cancel ho jaayega.")) return;
     try {
-      const res = await fetch(`http://localhost:8000/api/orders/${orderId}/cancel/`, {
-        method: "POST",
-        credentials: "include",
-      });
+      const res = await fetch(
+        `http://localhost:8000/api/orders/${orderId}/cancel/`,
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
       if (res.ok) {
+        const updatedOrder = await res.json();
         setOrders((prev) =>
-          prev.map((o) =>
-            o.id === orderId ? { ...o, status: "cancelled" } : o
-          )
+          prev.map((o) => (o.id === orderId ? updatedOrder : o))
         );
       } else {
         alert("Cancel karne me error aayi.");
@@ -110,9 +112,9 @@ export default function OrdersPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white px-4 py-8 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mt-30 mx-auto">
         <h1 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-          Your Orders
+          Hi {user.name || user.username || "User"},Your Orders
         </h1>
 
         <div className="mb-8 flex flex-col md:flex-row gap-4">
@@ -163,7 +165,9 @@ export default function OrdersPage() {
                         src={
                           order.items?.[0]?.sticker?.image?.startsWith("http")
                             ? order.items[0].sticker.image
-                            : `http://localhost:8000${order.items?.[0]?.sticker?.image || ""}`
+                            : `http://localhost:8000${
+                                order.items?.[0]?.sticker?.image || ""
+                              }`
                         }
                         alt={order.items?.[0]?.sticker?.name || "Sticker"}
                         width={180}
@@ -178,7 +182,8 @@ export default function OrdersPage() {
                         Order #{order.id}
                       </h3>
                       <p className="text-gray-400 text-sm">
-                        Category: {order.items?.[0]?.sticker?.category || "Sticker"}
+                        Category:{" "}
+                        {order.items?.[0]?.sticker?.category || "Sticker"}
                       </p>
                       <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                         ₹{order.total}
@@ -214,7 +219,9 @@ export default function OrdersPage() {
                       {order.status.toLowerCase() === "cancelled" && (
                         <div className="mt-4 text-red-400 font-semibold flex items-center gap-2">
                           <XCircle className="w-5 h-5" />
-                          Cancelled ({order.cancelled_by === "user" ? "by you" : "by admin"})
+                          {order.cancelled_by === "admin"
+                            ? "Cancelled by admin"
+                            : "Cancelled by you"}
                         </div>
                       )}
                     </div>
@@ -223,7 +230,9 @@ export default function OrdersPage() {
               })}
             </div>
           ) : (
-            <div className="text-center py-20 text-gray-400">No orders yet.</div>
+            <div className="text-center py-20 text-gray-400">
+              No orders yet.
+            </div>
           )}
         </AnimatePresence>
       </div>

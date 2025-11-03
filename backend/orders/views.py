@@ -55,11 +55,7 @@ def create_order(request):
     return Response(OrderSerializer(order).data)
 
 
-from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
-from .models import Order
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -71,16 +67,18 @@ def cancel_order(request, pk):
 
     user = request.user
 
-    # ✅ Check if user is admin or normal user
-    if user.is_staff:  # Admin hai
-        order.status = "Cancelled by Admin"
-        order.can_update = True  # Admin ke cancel hone ke baad bhi editable
-    else:  # Normal user hai
-        # Agar order already cancel hai ya complete hai toh dobara cancel na ho
-        if order.status in ["Cancelled by User", "Completed", "Cancelled by Admin"]:
-            return Response({'error': 'Order cannot be cancelled again'}, status=status.HTTP_400_BAD_REQUEST)
-        order.status = "Cancelled by User"
-        order.can_update = False  # user cancel kare toh lock
+    if order.status == "cancelled" or order.status == "delivered":
+        return Response({'error': 'Order cannot be cancelled again'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if user.is_staff:
+        order.status = "cancelled"
+        order.cancelled_by = "admin"
+        order.can_update = True
+    else:
+        order.status = "cancelled"
+        order.cancelled_by = "user"
+        order.can_update = False
 
     order.save()
-    return Response({'message': f'Order {order.status} successfully'})
+    serializer = OrderSerializer(order)
+    return Response(serializer.data, status=status.HTTP_200_OK)
