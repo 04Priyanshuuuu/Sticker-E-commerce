@@ -24,7 +24,7 @@ export default function ProfilePage() {
     if (!token) return;
     const fetchProfile = async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/profiles/", {
+        const res = await fetch("http://localhost:8000/api/profiles/dashboard/", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -84,7 +84,7 @@ export default function ProfilePage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white px-4 py-8">
-      <div className="max-w-5xl mx-auto space-y-8">
+      <div className="max-w-5xl mt-30 mx-auto space-y-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

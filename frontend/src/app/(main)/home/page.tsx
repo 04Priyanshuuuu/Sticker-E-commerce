@@ -1,14 +1,14 @@
 import Herosection from "./components/Herosection";
 import StickerSlider from "./components/Slider";
-import Grid from "./components/Grid";
 import { DraggableCard } from "./components/Stack";
 import WhyStickers from "./components/WhyStickers";
 import StickerRound from "./components/StickerRound";
 import HowTheyStick from "./components/HowTheyStick";
-import Testimonials from "./components/Testimonials";
 import MakeYourOwnSticker from "./components/MakeYourOwnSticker";
 import InstagramGallery from "./components/InstagramGallery";
 import OrderingProcess from "./components/OrderingProcess";
+import WriteToUs from "./components/WriteToUs";
+import OfferBanner from "./components/OfferBanner";
 
 export default function Home() {
   return (
@@ -16,16 +16,15 @@ export default function Home() {
       <Herosection />
       <StickerSlider />
       <StickerRound />
-      <Grid />
       <DraggableCard />
+      <OfferBanner />
       {/* offer wala box */}
       <MakeYourOwnSticker />
       <WhyStickers />
       <OrderingProcess />
-      <HowTheyStick />
-      <Testimonials />
       <InstagramGallery />
-      {/* emails us FAQs */}
+      <HowTheyStick />
+      <WriteToUs />
     </main>
   );
 }
