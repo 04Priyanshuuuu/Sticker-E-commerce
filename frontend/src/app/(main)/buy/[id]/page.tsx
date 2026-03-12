@@ -90,7 +90,7 @@ const BuyPage = () => {
       <div className="flex flex-col mt-30 md:flex-row items-center gap-10">
         <div className="flex-1 flex justify-center">
           <img
-            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${sticker.image}`}
+            src={sticker.image}
             alt={sticker.name}
             className="w-80 h-80 object-contain rounded-2xl shadow-lg"
           />
@@ -148,7 +148,7 @@ const BuyPage = () => {
               onClick={() => router.push(`/buy/${item.id}`)}
             >
               <img
-                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${item.image}`}
+                src={item.image}
                 alt={item.name}
                 className="rounded-xl w-full object-cover"
               />
