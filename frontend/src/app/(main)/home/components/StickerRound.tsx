@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 interface Sticker {
   id: number;
-  name: string;
+  title: string;
   image: string;
 }
 
@@ -22,10 +22,18 @@ export default function StickerRound() {
     async function fetchPopular() {
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/stickers/?is_popular=true&limit=10`
+          `${process.env.NEXT_PUBLIC_API_URL}/stickers/?is_popular=true&limit=10`,
         );
-        const data = await res.json();
-        setStickers(data);
+        const parsed = await res.json();
+        const data = Array.isArray(parsed) ? parsed : (parsed.results ?? []);
+        console.log("Sticker API response:", data);
+        setStickers(
+          data.map((it: any) => ({
+            id: it.id,
+            title: it.title ?? it.name ?? "",
+            image: it.image ?? it.img ?? it.image_url ?? "",
+          })),
+        );
       } catch (error) {
         console.error("Error fetching stickers:", error);
       }
@@ -115,11 +123,11 @@ export default function StickerRound() {
               transition-transform duration-300"
               >
                 <img
-                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${sticker.image}`}
-                  alt={sticker.name}
+                  src={sticker.image || ""}
+                  alt={sticker.title || "Sticker image"}
                   className="w-full h-[160px] object-cover rounded-md"
                 />
-                <p className="mt-2 text-sm text-gray-300">{sticker.name}</p>
+                <p className="mt-2 text-sm text-gray-300">{sticker.title}</p>
               </div>
             ))}
           </div>

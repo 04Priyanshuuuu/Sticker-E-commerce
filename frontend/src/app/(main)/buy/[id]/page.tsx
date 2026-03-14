@@ -15,14 +15,14 @@ const BuyPage = () => {
     if (!id) return;
     const fetchSticker = async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/stickers/${id}/`
+        `${process.env.NEXT_PUBLIC_API_URL}/stickers/${id}/`,
       );
       const data = await res.json();
       setSticker(data);
 
       // fetch related stickers
       const relatedRes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/stickers/?search=${data.category}`
+        `${process.env.NEXT_PUBLIC_API_URL}/stickers/?search=${data.category}`,
       );
       const relatedData = await relatedRes.json();
       setRelated(relatedData.filter((s) => s.id !== data.id));
@@ -43,7 +43,7 @@ const BuyPage = () => {
         `${process.env.NEXT_PUBLIC_API_URL}/auth/profile/`,
         {
           credentials: "include",
-        }
+        },
       );
 
       if (!profileRes.ok) {
@@ -66,7 +66,7 @@ const BuyPage = () => {
             size: "M",
             quantity: 1,
           }),
-        }
+        },
       );
 
       const data = await addRes.json();
@@ -90,14 +90,16 @@ const BuyPage = () => {
       <div className="flex flex-col mt-30 md:flex-row items-center gap-10">
         <div className="flex-1 flex justify-center">
           <img
-            src={sticker.image}
-            alt={sticker.name}
+            src={sticker.image || ""}
+            alt={sticker.title || sticker.name || "Sticker image"}
             className="w-80 h-80 object-contain rounded-2xl shadow-lg"
           />
         </div>
 
         <div className="flex-1 space-y-4">
-          <h2 className="text-3xl font-bold">{sticker.name}</h2>
+          <h2 className="text-3xl font-bold">
+            {sticker.title || sticker.name}
+          </h2>
           <p className="text-gray-400 capitalize">
             Category: {sticker.category}
           </p>
@@ -148,10 +150,13 @@ const BuyPage = () => {
               onClick={() => router.push(`/buy/${item.id}`)}
             >
               <img
-                src={item.image}
-                alt={item.name}
+                src={item.image || ""}
+                alt={item.title || item.name || "Sticker image"}
                 className="rounded-xl w-full object-cover"
               />
+              <p className="text-sm text-white mt-1">
+                {item.title || item.name}
+              </p>
             </div>
           ))}
         </div>

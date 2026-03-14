@@ -93,7 +93,7 @@ export default function MakeYourOwnSticker() {
             disabled={loading}
             className="bg-white text-black px-8 py-3 rounded-xl font-semibold hover:bg-neutral-200 transition disabled:opacity-50"
           >
-            {loading ? "Uploading..." : "Buy for ₹40"}
+            {loading ? "Uploading..." : "Buy for ₹400"}
           </button>
         </div>
       </div>

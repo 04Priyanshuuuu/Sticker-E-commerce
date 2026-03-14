@@ -42,7 +42,7 @@ export default function StickerSlider() {
 
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/stickers/?ordering=-created_at&limit=10`
+          `${process.env.NEXT_PUBLIC_API_URL}/stickers/?ordering=-created_at&limit=10`,
         );
         const text = await res.text();
         if (!res.ok) throw new Error(`${res.status} ${text}`);
@@ -50,7 +50,9 @@ export default function StickerSlider() {
         const parsed = JSON.parse(text);
         const data: RawSticker[] = Array.isArray(parsed)
           ? parsed
-          : parsed.results ?? [];
+          : (parsed.results ?? []);
+
+        console.log("Sticker API response:", data);
 
         const mapped = await Promise.all(
           data.slice(0, 10).map(async (it) => {
@@ -68,7 +70,7 @@ export default function StickerSlider() {
               category: it.category ?? "Uncategorized",
               orientation,
             } as Sticker;
-          })
+          }),
         );
 
         setStickers(mapped);
@@ -138,8 +140,8 @@ export default function StickerSlider() {
                   (sticker.orientation === "landscape"
                     ? "w-full h-auto object-cover"
                     : sticker.orientation === "portrait"
-                    ? "w-auto h-full object-cover"
-                    : "w-full h-full object-cover")
+                      ? "w-auto h-full object-cover"
+                      : "w-full h-full object-cover")
                 }
               />
             </div>
@@ -179,7 +181,7 @@ export default function StickerSlider() {
                   onClick={(e) => {
                     e.stopPropagation();
                     navigator.clipboard.writeText(
-                      location.origin + `/buy/${sticker.id}`
+                      location.origin + `/buy/${sticker.id}`,
                     );
                     alert("Link Copied!");
                   }}
