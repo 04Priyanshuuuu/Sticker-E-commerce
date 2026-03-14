@@ -15,13 +15,13 @@ export function CanvasRevealEffectDemo() {
           />
         </Card>
         
-        <Card title="botLuecifer" icon={<AceternityIcon />}>
+        {/* <Card title="botLuecifer" icon={<AceternityIcon />}>
           <CanvasRevealEffect
             animationSpeed={3}
             containerClassName="bg-sky-600"
             colors={[[125, 211, 252]]}
           />
-        </Card>
+        </Card> */}
       </div>
     </>
   );

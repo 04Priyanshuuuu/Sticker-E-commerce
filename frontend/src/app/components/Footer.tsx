@@ -33,10 +33,10 @@ function Footer() {
               <p>
                 <strong className="text-white">Email:</strong>{" "}
                 <a
-                  href="mailto:normallllthe@gmail.com"
+                  href="mailto:04priyanshuuuu@gmail.com"
                   className="hover:underline text-blue-400"
                 >
-                  normallllthe@gmail.com
+                  04priyanshuuuu@gmail.com
                 </a>
               </p>
             </li>

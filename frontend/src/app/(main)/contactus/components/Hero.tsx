@@ -49,8 +49,8 @@ const slides = [
           particleColor="#FFFFFF"
         />
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <h1 className="text-4xl font-bold text-white">
-            Slide 2 with Video Background
+          <h1 className="text-2xl font-bold text-white">
+            Welcome to StickE! Dive into the world of Stickers, and experience a rollercoaster of emotions.
           </h1>
         </div>
       </div>
@@ -59,8 +59,21 @@ const slides = [
   {
     id: 3,
     content: (
-      <div className="flex items-center justify-center h-full w-full bg-green-500 text-white">
-        <h1 className="text-4xl font-bold">Slide 3 Content</h1>
+      <div className="relative w-full h-full overflow-hidden">
+        <img
+          src="https://res.cloudinary.com/dlifuwcgw/image/upload/v1773511090/3d4_sowwz4.jpg"
+          className="absolute top-0 left-0 w-full h-full object-cover"
+        />
+
+        <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-center">
+          <h1 className="text-5xl font-bold text-white">
+            Explore Awesome Stickers
+          </h1>
+
+          <p className="text-lg text-gray-200 mt-4">
+            Anime • Cars • Cricketers • Nature
+          </p>
+        </div>
       </div>
     ),
   },

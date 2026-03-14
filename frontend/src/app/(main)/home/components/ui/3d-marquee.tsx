@@ -1,8 +1,7 @@
-"use client";
+﻿"use client";
 
 import { motion } from "motion/react";
 import { cn } from "../../../../utils/utils";
-
 export const ThreeDMarquee = ({
   images,
   className,
@@ -20,7 +19,7 @@ export const ThreeDMarquee = ({
     <div
       className={cn(
         "mx-auto block h-[600px] overflow-hidden rounded-2xl max-sm:h-100",
-        className
+        className,
       )}
     >
       <div className="flex size-full items-center justify-center">
@@ -51,11 +50,11 @@ export const ThreeDMarquee = ({
                         y: -10,
                       }}
                       transition={{
-                        duration: 0.0003,
+                        duration: 0.3,
                         ease: "easeInOut",
                       }}
                       key={imageIndex + image}
-                      src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${image}`}
+                      src={image}
                       alt={`Image ${imageIndex + 1}`}
                       className="aspect-[970/700] rounded-lg object-cover ring ring-gray-950/5 hover:shadow-2xl"
                       width={970}
@@ -101,7 +100,7 @@ const GridLineHorizontal = ({
         "[mask-composite:exclude]",
         "z-30",
         "dark:bg-[linear-gradient(to_right,var(--color-dark),var(--color-dark)_50%,transparent_0,transparent)]",
-        className
+        className,
       )}
     ></div>
   );
@@ -136,7 +135,7 @@ const GridLineVertical = ({
         "[mask-composite:exclude]",
         "z-30",
         "dark:bg-[linear-gradient(to_bottom,var(--color-dark),var(--color-dark)_50%,transparent_0,transparent)]",
-        className
+        className,
       )}
     ></div>
   );
