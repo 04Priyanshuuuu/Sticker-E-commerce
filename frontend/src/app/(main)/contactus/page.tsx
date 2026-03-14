@@ -1,5 +1,5 @@
 import WriteToUs from "../home/components/WriteToUs";
-import  Goal from "./components/Goal";
+import Goal from "./components/Goal";
 import Hero from "./components/Hero";
 import SocialContacts from "./components/SocialContacts";
 import Team from "./components/Team";
@@ -15,10 +15,9 @@ function Page() {
         <WriteToUs />
         <SocialContacts />
         <TechStack />
-        
       </main>
     </div>
   );
 }
 
-export default page;
+export default Page;
