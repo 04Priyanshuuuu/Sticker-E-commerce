@@ -27,7 +27,7 @@ export default function PopularCollections() {
             className="relative flex-none w-[250px] h-[300px] rounded-2xl overflow-hidden group"
           >
             <img
-              src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${c.img}`}
+              src={c.img}
               alt={c.name}
               className="w-full h-full object-cover group-hover:opacity-70 transition"
             />
