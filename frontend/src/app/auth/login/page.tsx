@@ -24,27 +24,62 @@ export default function LoginPage() {
       );
 
       if (res.ok) {
-        try {
-          const profileRes = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/auth/profile/`,
-            { credentials: "include" }
-          );
-          if (profileRes.ok) {
-            const profileData = await profileRes.json();
-            setUser && setUser(profileData);
-          }
-        } catch {}
-        window.location.href = "/";
-      } else {
-        const data = await res.json();
-        setError(
-          data.errors?.non_field_errors?.[0] || "Invalid email or password"
-        );
-      }
-    } catch {
-      setError("Something went wrong!");
+
+  try {
+
+    const profileRes =
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/profile/`,
+        {
+          credentials:
+          "include"
+        }
+      );
+
+    if (
+      profileRes.ok
+    ) {
+
+      const profileData =
+        await profileRes.json();
+
+      setUser &&
+      setUser(
+        profileData
+      );
     }
-  };
+
+  } catch {}
+
+  window.location.href =
+    "/";
+
+} else {
+
+  const txt =
+    await res.text();
+
+  console.log(
+    "LOGIN RESPONSE:",
+    txt
+  );
+
+  setError(
+    txt ||
+    "Invalid email or password"
+  );
+}
+
+} catch(err) {
+
+  console.log(
+    err
+  );
+
+  setError(
+    "Something went wrong!"
+  );
+}
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-[#0b0b0f] flex items-center justify-center">
