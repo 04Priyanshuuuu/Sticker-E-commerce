@@ -10,103 +10,129 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     setError("");
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/login/`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+
+      const res =
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/login/`,
+          {
+            method:
+            "POST",
+
+            credentials:
+            "include",
+
+            headers:{
+              "Content-Type":
+              "application/json"
+            },
+
+            body:
+            JSON.stringify({
+              email,
+              password
+            }),
+          }
+        );
 
       if (res.ok) {
 
-  try {
+        try {
 
-    const profileRes =
-      await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/profile/`,
-        {
-          credentials:
-          "include"
-        }
+          const profileRes =
+            await fetch(
+              `${process.env.NEXT_PUBLIC_API_URL}/auth/profile/`,
+              {
+                credentials:
+                "include"
+              }
+            );
+
+          if (
+            profileRes.ok
+          ) {
+
+            const profileData =
+              await profileRes.json();
+
+            setUser &&
+            setUser(
+              profileData
+            );
+          }
+
+        } catch {}
+
+        window.location.href =
+          "/";
+
+      } else {
+
+        const txt =
+          await res.text();
+
+        console.log(
+          "LOGIN RESPONSE:",
+          txt
+        );
+
+        setError(
+          txt ||
+          "Invalid email or password"
+        );
+      }
+
+    } catch(err) {
+
+      console.log(
+        err
       );
 
-    if (
-      profileRes.ok
-    ) {
-
-      const profileData =
-        await profileRes.json();
-
-      setUser &&
-      setUser(
-        profileData
+      setError(
+        "Something went wrong!"
       );
     }
-
-  } catch {}
-
-  window.location.href =
-    "/";
-
-} else {
-
-  const txt =
-    await res.text();
-
-  console.log(
-    "LOGIN RESPONSE:",
-    txt
-  );
-
-  setError(
-    txt ||
-    "Invalid email or password"
-  );
-}
-
-} catch(err) {
-
-  console.log(
-    err
-  );
-
-  setError(
-    "Something went wrong!"
-  );
-}
+  };
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-[#0b0b0f] flex items-center justify-center">
-      {/* BLUE BLOB */}
+
       <div className="absolute -top-24 -left-24 w-[420px] h-[420px] bg-blue-500/60 rounded-full blur-[140px]" />
 
-      {/* ORANGE BLOB */}
       <div className="absolute -bottom-24 -right-24 w-[420px] h-[420px] bg-orange-500/60 rounded-full blur-[140px]" />
 
-      {/* GLASS CARD */}
       <div
         className="relative z-10 w-[420px] rounded-2xl border border-white/10
                    bg-white/10 backdrop-blur-xl p-8
                    shadow-[0_0_50px_rgba(0,0,0,0.6)] text-white"
       >
-        <h2 className="text-3xl font-bold">Login Here</h2>
+
+        <h2 className="text-3xl font-bold">
+          Login Here
+        </h2>
+
         <p className="text-sm text-gray-300 mt-1">
           Welcome back to your account
         </p>
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+        <form
+          onSubmit={handleSubmit}
+          className="mt-8 space-y-5"
+        >
+
           <Input
             label="Email"
             type="email"
             placeholder="you@example.com"
             value={email}
-            onChange={(e: any) => setEmail(e.target.value)}
+            onChange={(e:any)=>
+              setEmail(
+                e.target.value
+              )
+            }
           />
 
           <Input
@@ -114,10 +140,18 @@ export default function LoginPage() {
             type="password"
             placeholder="••••••••"
             value={password}
-            onChange={(e: any) => setPassword(e.target.value)}
+            onChange={(e:any)=>
+              setPassword(
+                e.target.value
+              )
+            }
           />
 
-          {error && <p className="text-red-400 text-sm">{error}</p>}
+          {error && (
+            <p className="text-red-400 text-sm">
+              {error}
+            </p>
+          )}
 
           <button
             type="submit"
@@ -126,9 +160,11 @@ export default function LoginPage() {
           >
             Log In
           </button>
+
         </form>
 
         <div className="mt-6 text-center space-y-3 text-sm text-gray-300">
+
           <a
             href="/auth/forgot-password"
             className="underline hover:text-white"
@@ -138,30 +174,59 @@ export default function LoginPage() {
 
           <div>
             Don&apos;t have an account?{" "}
-            <a href="/auth/signUp" className="text-white underline">
+
+            <a
+              href="/auth/signUp"
+              className="text-white underline"
+            >
+
               Create one
+
             </a>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
   );
 }
 
-function Input({ label, type = "text", placeholder, value, onChange }: any) {
-  return (
+function Input({
+  label,
+  type="text",
+  placeholder,
+  value,
+  onChange
+}:any){
+
+  return(
     <div>
-      <label className="block text-sm mb-1 text-gray-300">{label}</label>
+
+      <label className="block text-sm mb-1 text-gray-300">
+
+        {label}
+
+      </label>
+
       <input
         type={type}
+
         value={value}
+
         onChange={onChange}
+
         placeholder={placeholder}
+
         required
+
         className="w-full rounded-lg bg-white/10 border border-white/10
                    px-4 py-2.5 text-white placeholder-gray-400
                    focus:outline-none focus:ring-2 focus:ring-white/20"
       />
+
     </div>
   );
 }
