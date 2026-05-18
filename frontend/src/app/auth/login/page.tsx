@@ -38,18 +38,25 @@ export default function LoginPage() {
           }
         );
 
-      if (res.ok) {
+      if(res.ok){
 
-        try {
+    await new Promise(
+        resolve=>
+        setTimeout(
+            resolve,
+            500
+        )
+    )
 
-          const profileRes =
-            await fetch(
-              `${process.env.NEXT_PUBLIC_API_URL}/auth/profile/`,
-              {
-                credentials:
-                "include"
-              }
-            );
+    const profileRes=
+    await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/profile/`,
+      {
+        credentials:"include"
+      }
+    )
+
+;
 
           if (
             profileRes.ok

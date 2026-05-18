@@ -20,7 +20,7 @@ from django.utils.http import (
     urlsafe_base64_decode,
     urlsafe_base64_encode
 )
-
+from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.tokens import (
     PasswordResetTokenGenerator
 )
@@ -205,7 +205,13 @@ class UserLoginView(APIView):
 # Profile
 class UserProfileView(APIView):
 
-    renderer_classes = [UserRenderer]
+    permission_classes = [
+        IsAuthenticated
+    ]
+
+    renderer_classes = [
+        UserRenderer
+    ]
 
     def get(
         self,
@@ -213,13 +219,13 @@ class UserProfileView(APIView):
         format=None
     ):
 
-        serializer = UserProfileSerializer(
+        serializer =
+        UserProfileSerializer(
             request.user
         )
 
         return Response(
-            serializer.data,
-            status=status.HTTP_200_OK
+            serializer.data
         )
 
 
