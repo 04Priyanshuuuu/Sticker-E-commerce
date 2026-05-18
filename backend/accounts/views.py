@@ -137,7 +137,8 @@ class UserLoginView(APIView):
         )
 
         user = authenticate(
-            email=email,
+            request,
+            username=email,
             password=password
         )
 
