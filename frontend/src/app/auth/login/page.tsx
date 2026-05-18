@@ -51,7 +51,7 @@ export default function LoginPage() {
             resolve =>
               setTimeout(
                 resolve,
-                500
+                1200
               )
           );
 
