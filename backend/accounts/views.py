@@ -219,8 +219,7 @@ class UserProfileView(APIView):
         format=None
     ):
 
-        serializer =
-        UserProfileSerializer(
+        serializer = UserProfileSerializer(
             request.user
         )
 
