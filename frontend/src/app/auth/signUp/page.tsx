@@ -16,9 +16,7 @@ export default function SignupPage() {
     setSuccess("");
 
     if (password !== confirmPassword) {
-      setError(
-        "Passwords do not match"
-      );
+      setError("Passwords do not match");
       return;
     }
 
@@ -29,12 +27,9 @@ export default function SignupPage() {
           `${process.env.NEXT_PUBLIC_API_URL}/auth/register/`,
           {
             method:
-              "POST",
+            "POST",
 
-            credentials:
-              "include",
-
-            headers: {
+            headers:{
               "Content-Type":
               "application/json"
             },
@@ -50,42 +45,13 @@ export default function SignupPage() {
               password,
 
               password2:
-              confirmPassword,
+              confirmPassword
 
             }),
           }
         );
 
       if (res.ok) {
-
-        try {
-
-          const profileRes =
-            await fetch(
-              `${process.env.NEXT_PUBLIC_API_URL}/auth/profile/`,
-              {
-                credentials:
-                "include"
-              }
-            );
-
-          if (
-            profileRes.ok
-          ) {
-
-            const profileData =
-            await profileRes.json();
-
-            localStorage.setItem(
-              "user",
-
-              JSON.stringify(
-                profileData
-              )
-            );
-          }
-
-        } catch {}
 
         setSuccess(
           "Account created successfully"
@@ -127,8 +93,8 @@ export default function SignupPage() {
 
       <div
         className="relative z-10 w-[420px] rounded-2xl border border-white/10
-                      bg-white/10 backdrop-blur-xl p-8
-                      shadow-[0_0_50px_rgba(0,0,0,0.6)] text-white"
+        bg-white/10 backdrop-blur-xl p-8
+        shadow-[0_0_50px_rgba(0,0,0,0.6)] text-white"
       >
 
         <h2 className="text-3xl font-bold">
@@ -201,7 +167,6 @@ export default function SignupPage() {
 
           <button
             type="submit"
-
             className="
             w-full
             rounded-xl
