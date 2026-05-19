@@ -7,7 +7,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+  const { loading } = useState(false);
   const { setUser } = useAuth();
 
   const handleSubmit = async (
@@ -183,11 +183,14 @@ await fetch(
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full rounded-xl bg-white text-black py-3 font-semibold
                        hover:bg-gray-200 transition cursor-pointer"
           >
 
-            Log In
+            {loading
+            ? "Logging In..."
+            : "Log In"}
 
           </button>
 

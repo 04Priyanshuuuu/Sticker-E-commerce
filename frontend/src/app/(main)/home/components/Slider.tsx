@@ -201,7 +201,7 @@ export default function StickerSlider() {
     e.stopPropagation();
     await addToCart(sticker.id);
   }}
-  className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow hover:scale-110 transition"
+  className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow hover:scale-110 cursor-pointer transition"
 >
   <Plus className="w-5 h-5 text-black" />
 </button>
@@ -214,7 +214,7 @@ export default function StickerSlider() {
                     );
                     alert("Link Copied!");
                   }}
-                  className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow hover:scale-110 transition"
+                  className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow hover:scale-110 cursor-pointer transition"
                 >
                   <Share2 className="w-5 h-5 text-black" />
                 </button>
@@ -231,7 +231,7 @@ export default function StickerSlider() {
                     e.stopPropagation();
                     router.push(`/buy/${sticker.id}`);
                   }}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 cursor-pointer transition"
                 >
                   Buy
                 </button>

@@ -55,7 +55,7 @@ export default function OrdersPage() {
   }, []);
 
   const cancelOrder = async (orderId) => {
-    if (!confirm("Kya aap sure hain? Ye order cancel ho jaayega.")) return;
+    if (!confirm("The order will be cancelled.Are you sure?")) return;
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/orders/${orderId}/cancel/`,
@@ -70,7 +70,7 @@ export default function OrdersPage() {
           prev.map((o) => (o.id === orderId ? updatedOrder : o))
         );
       } else {
-        alert("Cancel karne me error aayi.");
+        alert("Error in cancelling");
       }
     } catch (err) {
       console.error(err);
