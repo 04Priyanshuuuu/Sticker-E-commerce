@@ -360,20 +360,30 @@ export default function CartPage() {
           </div>
         )}
 
-        {/* Related Stickers */}
-        {relatedStickers.map((s) => (
-  <StickerHover
-    key={s.id}
-    id={s.id}
-    name={s.title || s.name}
-    price={s.price}
-    img={s.image || s.img}
-  />
-))}
-            </div>
-          </div>
-        )}
-      </div>
-    </main>
-  );
-}
+        
+{/* Related Stickers */}
+{relatedStickers.length > 0 && (
+  <div className="mt-16">
+
+    <h2 className="text-2xl font-semibold mb-6">
+      More from this category
+    </h2>
+
+    <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+
+      {relatedStickers.map((s) => (
+
+        <StickerHover
+          key={s.id}
+          id={s.id}
+          name={s.title || s.name}
+          price={s.price}
+          img={s.image || s.img}
+        />
+
+      ))}
+
+    </div>
+
+  </div>
+)}
