@@ -159,27 +159,53 @@ AUTHENTICATION_BACKENDS = [
 CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
+
     "https://sticke.vercel.app",
-    "https://www.sticke.vercel.app"
+
+    "https://www.sticke.vercel.app",
+
+]
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+
+    r"^https://.*\.vercel\.app$",
+
 ]
 
 CORS_ALLOW_CREDENTIALS = True
 
+
 CSRF_TRUSTED_ORIGINS = [
+
     "https://sticke.vercel.app",
-    "https://www.sticke.vercel.app"
+
+    "https://www.sticke.vercel.app",
+
+    "https://*.vercel.app",
+
 ]
 
+
 CORS_ALLOW_HEADERS = [
+
     "accept",
+
     "accept-encoding",
+
     "authorization",
+
     "content-type",
+
     "dnt",
+
     "origin",
+
     "user-agent",
+
     "x-csrftoken",
+
     "x-requested-with",
+
 ]
 
 
@@ -187,13 +213,18 @@ SESSION_COOKIE_SECURE = True
 
 CSRF_COOKIE_SECURE = True
 
+
 SESSION_COOKIE_SAMESITE = "None"
 
 CSRF_COOKIE_SAMESITE = "None"
 
+
 SECURE_PROXY_SSL_HEADER = (
+
     "HTTP_X_FORWARDED_PROTO",
+
     "https"
+
 )
 
 
