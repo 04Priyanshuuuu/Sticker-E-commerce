@@ -555,13 +555,25 @@ class UserLogoutView(APIView):
             status=status.HTTP_200_OK
         )
 
-        response.delete_cookie(
-            'access',
+        response.set_cookie(
+            key='access',
+            value='',
+            max_age=0,
+            expires=0,
+            httponly=True,
+            secure=True,
+            samesite='None',
             path='/'
         )
 
-        response.delete_cookie(
-            'refresh',
+        response.set_cookie(
+            key='refresh',
+            value='',
+            max_age=0,
+            expires=0,
+            httponly=True,
+            secure=True,
+            samesite='None',
             path='/'
         )
 
