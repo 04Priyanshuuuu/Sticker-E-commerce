@@ -56,14 +56,20 @@ export default function LoginPage() {
           );
 
           const profileRes =
-            await fetch(
-              `${process.env.NEXT_PUBLIC_API_URL}/auth/profile/`,
-              {
-                credentials:
-                "include"
-              }
-            );
+await fetch(
+`${process.env.NEXT_PUBLIC_API_URL}/auth/profile/`,
+{
+   method:"GET",
 
+   credentials:
+   "include",
+
+   headers:{
+      "Content-Type":
+      "application/json"
+   }
+}
+);
           if (
             profileRes.ok
           ) {
