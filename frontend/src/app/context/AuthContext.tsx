@@ -34,6 +34,10 @@ export const AuthProvider = ({
   const fetchUser =
     async () => {
 
+      console.log(
+        "1 fetchUser start"
+      );
+
       try {
 
         const res =
@@ -45,7 +49,16 @@ export const AuthProvider = ({
             }
           );
 
+        console.log(
+          "2 profile status:",
+          res.status
+        );
+
         if (!res.ok) {
+
+          console.log(
+            "3 profile failed"
+          );
 
           setUser(
             null
@@ -61,6 +74,11 @@ export const AuthProvider = ({
         const data =
           await res.json();
 
+        console.log(
+          "4 profile success:",
+          data
+        );
+
         setUser(
           data
         );
@@ -75,7 +93,7 @@ export const AuthProvider = ({
       } catch (err) {
 
         console.error(
-          "Auth fetch failed",
+          "5 auth fetch failed",
           err
         );
 
@@ -85,6 +103,10 @@ export const AuthProvider = ({
 
       } finally {
 
+        console.log(
+          "6 loading false"
+        );
+
         setLoading(
           false
         );
@@ -93,14 +115,27 @@ export const AuthProvider = ({
 
   useEffect(() => {
 
+    console.log(
+      "7 useEffect start"
+    );
+
     const savedUser =
       localStorage.getItem(
         "user"
       );
 
+    console.log(
+      "8 saved user:",
+      savedUser
+    );
+
     if (
       savedUser
     ) {
+
+      console.log(
+        "9 set saved user"
+      );
 
       setUser(
         JSON.parse(
@@ -117,17 +152,31 @@ export const AuthProvider = ({
   const logout =
     async () => {
 
+      console.log(
+        "10 logout start"
+      );
+
       try {
 
-        await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/logout/`,
-          {
-            method:
-              "POST",
+        console.log(
+          "11 logout api call"
+        );
 
-            credentials:
-              "include",
-          }
+        const res =
+          await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/logout/`,
+            {
+              method:
+                "POST",
+
+              credentials:
+                "include",
+            }
+          );
+
+        console.log(
+          "12 logout done:",
+          res.status
         );
 
       } catch (
@@ -135,17 +184,30 @@ export const AuthProvider = ({
       ) {
 
         console.error(
+          "13 logout error",
           err
         );
 
       } finally {
 
+        console.log(
+          "14 set user null"
+        );
+
         setUser(
           null
         );
 
+        console.log(
+          "15 remove localstorage"
+        );
+
         localStorage.removeItem(
           "user"
+        );
+
+        console.log(
+          "16 redirect home"
         );
 
         window.location.href =
@@ -156,20 +218,13 @@ export const AuthProvider = ({
   return (
     <AuthContext.Provider
       value={{
-
         user,
-
         setUser,
-
         logout,
-
         loading
-
       }}
     >
-
       {children}
-
     </AuthContext.Provider>
   );
 };

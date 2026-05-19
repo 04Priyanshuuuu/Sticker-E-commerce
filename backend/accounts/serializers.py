@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from accounts.models import User
 from accounts.utils import Util
-
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(
