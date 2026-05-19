@@ -35,14 +35,47 @@ from django.utils.encoding import (
 
 
 # Generate JWT tokens
-def get_tokens_for_user(user):
-    refresh = RefreshToken.for_user(user)
+from datetime import datetime
+import time
+
+
+def get_tokens_for_user(
+    user
+):
+
+    print(
+        "SERVER UTC:",
+        datetime.utcnow()
+    )
+
+    print(
+        "UNIX NOW:",
+        int(
+            time.time()
+        )
+    )
+
+    refresh = RefreshToken.for_user(
+        user
+    )
+
+    access = str(
+        refresh.access_token
+    )
+
+    print(
+        "NEW ACCESS:",
+        access
+    )
 
     return {
-        'refresh': str(refresh),
-        'access': str(refresh.access_token),
-    }
 
+        "refresh":
+        str(refresh),
+
+        "access":
+        access
+    }
 
 # Signup
 class UserRegistrationView(APIView):
