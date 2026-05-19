@@ -65,7 +65,7 @@ export default function CartPage() {
     };
 
     fetchCart();
-  }, [setCart]);
+  }, [setGlobalCart]);
 
   // 🟣 Related stickers
   useEffect(() => {
@@ -81,6 +81,8 @@ export default function CartPage() {
         .catch(console.error);
     }
   }, [cart]);
+
+  
 
   // 🟣 Update quantity
   const updateQuantity = async (itemId: number, newQuantity: number) => {

@@ -131,7 +131,7 @@ const MobileNavbar = () => {
             <div className="border-t border-gray-700 pt-5">
               {user ? (
                 <div className="flex flex-col space-y-3 text-lg">
-                  <p className="text-sm text-gray-400">{user.username}</p>
+                  <p className="text-sm text-gray-400">{user.name}</p>
                   <Link href="/profile" onClick={() => setMenuOpen(false)}>
                     My Profile
                   </Link>
@@ -140,7 +140,7 @@ const MobileNavbar = () => {
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="text-left text-red-400"
+                    className="text-left cursor-pointer text-red-400"
                   >
                     Logout
                   </button>

@@ -22,7 +22,7 @@ function NavbarDesktop({ className }: { className?: string }) {
     window.location.href = "/";
   };
 
-  // ✅ Dropdown close when clicking outside
+  
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -93,7 +93,7 @@ function NavbarDesktop({ className }: { className?: string }) {
                 {user ? (
                   <>
                     <p className="block px-2 py-1 text-gray-400 truncate">
-                      {user.username}
+                      {user.name}
                     </p>
                     <Link
                       href="/profile"
@@ -109,7 +109,7 @@ function NavbarDesktop({ className }: { className?: string }) {
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="w-full text-left px-2 py-1 hover:bg-black-900"
+                      className="w-full text-left px-2 py-1 cursor-pointer hover:bg-black-900"
                     >
                       Logout
                     </button>

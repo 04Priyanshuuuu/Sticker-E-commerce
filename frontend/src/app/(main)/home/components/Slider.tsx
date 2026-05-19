@@ -14,6 +14,34 @@ type Sticker = {
   orientation?: "portrait" | "landscape" | "square";
 };
 
+const addToCart = async(stickerId:number|string)=>{
+   try{
+      const res = await fetch(
+         `${process.env.NEXT_PUBLIC_API_URL}/cart/add/`,
+         {
+            method:"POST",
+            credentials:"include",
+            headers:{
+               "Content-Type":"application/json"
+            },
+            body:JSON.stringify({
+               sticker_id:stickerId
+            })
+         }
+      );
+
+      if(!res.ok){
+         throw new Error("Failed");
+      }
+
+      alert("Added to cart");
+   }
+   catch(err){
+      console.error(err);
+      alert("Failed to add");
+   }
+}
+
 // Detect image orientation
 async function detectOrientation(url: string): Promise<Sticker["orientation"]> {
   return new Promise((res) => {
@@ -168,9 +196,10 @@ export default function StickerSlider() {
               {/* Top-right buttons */}
               <div className="flex flex-col gap-2 self-end">
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    alert(`Add to cart ${sticker.id}`);
+                  onClick={async(e)=>{
+   e.stopPropagation();
+   await addToCart(sticker.id);
+}}
                   }}
                   className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow hover:scale-110 transition"
                 >
