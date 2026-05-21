@@ -3,13 +3,14 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useCartStore } from "@/app/store/useCartStore";
 
 export default function MakeYourOwnSticker() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
+  const addAlert = useCartStore((s) => s.addAlert);
   const handleFileChange = (e: any) => {
     const img = e.target.files[0];
     if (!img) return;
@@ -18,7 +19,14 @@ export default function MakeYourOwnSticker() {
   };
 
   const handleUploadAndBuy = async () => {
-    if (!file) return alert("Image upload karo");
+    if (!file) {
+  addAlert({
+    type: "error",
+    message: "Please upload an image 🖼️",
+  });
+
+  return;
+}
 
     setLoading(true);
     const formData = new FormData();
@@ -38,10 +46,13 @@ export default function MakeYourOwnSticker() {
 
       const data = await res.json();
 
-      // 👇 checkout page (same flow as other stickers)
+      
       router.push(`/checkout?custom=${data.id}&price=40`);
     } catch (err) {
-      alert("Something went wrong");
+      addAlert({
+  type: "error",
+  message: "Something went wrong ❌",
+});
     } finally {
       setLoading(false);
     }

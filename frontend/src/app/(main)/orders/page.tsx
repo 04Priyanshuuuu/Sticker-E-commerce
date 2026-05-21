@@ -70,11 +70,17 @@ export default function OrdersPage() {
           prev.map((o) => (o.id === orderId ? updatedOrder : o))
         );
       } else {
-        alert("Error in cancelling");
+        addAlert({
+  type: "error",
+  message: "Error in cancelling ❌",
+});
       }
     } catch (err) {
       console.error(err);
-      alert("Server error aayi.");
+      addAlert({
+  type: "error",
+  message: "Server error occurred ❌",
+});
     }
   };
 

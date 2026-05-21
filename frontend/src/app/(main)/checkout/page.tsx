@@ -40,9 +40,10 @@ export default function CheckoutPage() {
             );
 
           if (!res.ok) {
-            alert(
-              "Login to place order 🔒"
-            );
+            addAlert({
+  type: "error",
+  message: "Login to place order 🔒",
+});
 
             router.push(
               "/auth/login"
@@ -94,17 +95,19 @@ export default function CheckoutPage() {
         if (!res.ok)
           throw new Error();
 
-        alert(
-          "Order placed successfully!"
-        );
+        addAlert({
+  type: "success",
+  message: "Order placed sucessfully✅",
+});
 
         router.push(
           "/orders"
         );
       } catch {
-        alert(
-          "Failed to place order"
-        );
+        addAlert({
+  type: "error",
+  message: "Failed to place order!",
+});
       } finally {
         setLoading(false);
       }

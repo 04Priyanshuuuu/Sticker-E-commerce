@@ -32,7 +32,10 @@ export default function OfferBanner() {
             whileHover={{ scale: 1.07 }}
             whileTap={{ scale: 0.97 }}
             className="px-10 py-4 border border-white bg-white text-black font-semibold text-lg hover:bg-gray-200 transition-all duration-200"
-            onClick={() => alert("Coming Soon! 🎉")}
+            onClick={() => addAlert({
+  type: "success",
+  message: "Coming Soon! 🎉",
+});
           >
             Coming soon
           </motion.button>

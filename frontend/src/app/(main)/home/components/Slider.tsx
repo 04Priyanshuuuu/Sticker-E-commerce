@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Plus, Share2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useCartStore } from "@/app/store/useCartStore";
 
 type RawSticker = any;
 type Sticker = {
@@ -33,7 +34,7 @@ export default function StickerSlider() {
   const [stickers, setStickers] = useState<Sticker[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  const addAlert = useCartStore((s) => s.addAlert);
   const router = useRouter();
 
   useEffect(() => {
@@ -136,7 +137,10 @@ export default function StickerSlider() {
       throw new Error("Failed");
     }
 
-    alert("Added to cart");
+    addAlert({
+  type: "success",
+  message: "Added to cart 🛒",
+});
   } catch (err) {
     console.error(err);
   }
@@ -212,7 +216,10 @@ export default function StickerSlider() {
                     navigator.clipboard.writeText(
                       location.origin + `/buy/${sticker.id}`,
                     );
-                    alert("Link Copied!");
+                    addAlert({
+  type: "success",
+  message: "Link Copied! 🔗",
+});
                   }}
                   className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow hover:scale-110 cursor-pointer transition"
                 >

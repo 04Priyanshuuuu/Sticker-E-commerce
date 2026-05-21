@@ -21,7 +21,10 @@ export default function WriteToUs() {
         "poWpnV2bFY9ROtC9W"
       );
 
-      alert("Message sent!");
+      addAlert({
+  type: "success",
+  message: "Message sent! ✉️",
+});
 
       setEmail("");
       setMessage("");
@@ -33,7 +36,9 @@ export default function WriteToUs() {
   return (
     <section>
       <div className="bg-black text-white py-20 flex flex-col items-center px-4">
-
+        <h1 className="text-[40px] font-bold m-10 ml-5 border-l-4 border-blue-500 pl-4">
+          Trending
+        </h1>
         <h2 className="text-4xl font-bold mb-6">
           Write To Us 📨
         </h2>

@@ -6,7 +6,7 @@ function Footer() {
         About Us
       </h1>
       <p className="max-w-5xl text-1.5xl text-gray-300">
-        Welcome to StickE! Dive into the world of Stickers, and experience a rollercoaster of emotions.
+        Welcome to StickE! Dive into the world of Stickers, and experience a rollercoaster of emotions. Discover unique stickers, posters, and creative designs specially curated for college students to add personality, style, and expression to their spaces and moments.
        </p>
        </div>
        
@@ -151,7 +151,7 @@ function Footer() {
 
       {/* Bottom */}
       <div className="text-center text-xs sm:text-sm border-t border-gray-700 pt-4 mt-8  text-gray-400">
-        <p>&copy; 2025 Sticke. All rights reserved.</p>
+        <p>&copy; 2026 Sticke. All rights reserved.</p>
         <p>
           Made with <span className="text-red-500">❤️</span> by Zero
         </p>
