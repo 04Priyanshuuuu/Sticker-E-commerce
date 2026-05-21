@@ -6,7 +6,7 @@ export default function WriteToUs() {
   const [message, setMessage] = useState("");
 
   const handleSendEmail = () => {
-    const adminEmail = "tumharaemail@gmail.com";
+    const adminEmail = "04myexperimentswithai@gmail.com";
 
     const subject = encodeURIComponent(
       "Message from Website"
