@@ -13,9 +13,32 @@ function NavbarDesktop({ className }: { className?: string }) {
   const { user, logout } = useAuth();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const totalItems = useCartStore((state) =>
-    state.cart.reduce((acc, i) => acc + i.quantity, 0)
-  );
+  const totalItems = useCartStore((state) => state.cart.length);
+const setCart = useCartStore((s) => s.setCart);
+
+useEffect(() => {
+  const fetchCart = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/cart/`,
+        {
+          credentials: "include",
+        }
+      );
+
+      if (!res.ok) return;
+
+      const data = await res.json();
+
+      setCart(data.items || []);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  fetchCart();
+}, [setCart]);
+
 
   const handleLogout = async () => {
     await logout();
