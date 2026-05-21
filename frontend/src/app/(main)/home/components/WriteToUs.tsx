@@ -1,16 +1,26 @@
 "use client";
 import React, { useState } from "react";
+import emailjs from "@emailjs/browser";
 
 export default function WriteToUs() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSendEmail = () => {
-  const adminEmail = "04myexperimentswithai@gmail.com";
+  const handleSendEmail = async () => {
+      await emailjs.send(
+        "service_a24z3yg",
+        "template_9007h3t",
+        {
+          name: email.split("@")[0],
+          email: email,
+          message: message,
+          title: "Website Message"
+        },
+        "poWpnV2bFY9ROtC9W"
+      );
 
-  const subject = encodeURIComponent(
-    "Message from Website"
-  );
+      alert("Message sent!");
+    };
 
   const body = encodeURIComponent(
 `User Email: ${email}
