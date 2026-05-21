@@ -1,21 +1,25 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import {
   DraggableCardBody,
   DraggableCardContainer,
 } from "../components/ui/draggable-card";
 
-/** Utility: Fisher-Yates shuffle */
+/** Fisher-Yates shuffle */
 function shuffle<T>(arr: T[]) {
-  const a = arr.slice();
+  const a = [...arr];
+
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
+
     [a[i], a[j]] = [a[j], a[i]];
   }
+
   return a;
 }
 
-/** Pool of position & rotation classes — tweak as you like */
+/** Position classes */
 const POSITIONS = [
   "absolute top-10 left-[6%] rotate-[-8deg]",
   "absolute top-8 left-[22%] rotate-[-5deg]",
@@ -29,45 +33,6 @@ const POSITIONS = [
   "absolute top-6 left-[50%] rotate-[6deg]",
 ];
 
-/** Default local items (used as fallback if backend has fewer images) */
-const DEFAULT_ITEMS = [
-  {
-    title: "Tyler Durden",
-    image:
-      "https://images.unsplash.com/photo-1732310216648-603c0255c000?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3",
-  },
-  {
-    title: "The Narrator",
-    image:
-      "https://images.unsplash.com/photo-1697909623564-3dae17f6c20b?q=80&w=2667&auto=format&fit=crop&ixlib=rb-4.0.3",
-  },
-  {
-    title: "Iceland",
-    image:
-      "https://images.unsplash.com/photo-1501854140801-50d01698950b?q=80&w=2600&auto=format&fit=crop&ixlib=rb-4.0.3",
-  },
-  {
-    title: "Japan",
-    image:
-      "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?q=80&w=3648&auto=format&fit=crop&ixlib=rb-4.0.3",
-  },
-  {
-    title: "Norway",
-    image:
-      "https://images.unsplash.com/photo-1421789665209-c9b2a435e3dc?q=80&w=3542&auto=format&fit=crop&ixlib=rb-4.0.3",
-  },
-  {
-    title: "New Zealand",
-    image:
-      "https://images.unsplash.com/photo-1505142468610-359e7d316be0?q=80&w=3070&auto=format&fit=crop&ixlib=rb-4.0.3",
-  },
-  {
-    title: "Canada",
-    image:
-      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop&ixlib=rb-4.0.3",
-  },
-];
-
 type Item = {
   title: string;
   image: string;
@@ -75,142 +40,134 @@ type Item = {
 };
 
 export function DraggableCard() {
-  // number of cards must remain constant
-  const ITEM_COUNT = DEFAULT_ITEMS.length;
+  const [items, setItems] = useState<Item[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // items state holds exactly ITEM_COUNT items (images may be replaced from backend)
-  const [items, setItems] = useState<Item[]>(
-    DEFAULT_ITEMS.map((it, i) => ({
-      ...it,
-      className: POSITIONS[i % POSITIONS.length],
-    }))
-  );
+  const ITEM_LIMIT = 7;
 
-  const BACKEND_API = `${process.env.NEXT_PUBLIC_API_URL}/stickers/?limit=${ITEM_COUNT}`; // change if needed
+  const BACKEND_API = `${process.env.NEXT_PUBLIC_API_URL}/stickers/?limit=${ITEM_LIMIT}`;
 
-  /** Fetch images from Django backend.
-   *  Expected response: array of objects with at least { image: string, name?: string }
-   */
-  const fetchImagesFromBackend = async (): Promise<Item[]> => {
+  const fetchImages = async () => {
     try {
+      setLoading(true);
+
       const res = await fetch(BACKEND_API);
+
       if (!res.ok) {
-        console.warn(
-          "Backend fetch failed, using fallback images.",
-          res.status
-        );
-        return [];
+        throw new Error("Backend fetch failed");
       }
+
       const data = await res.json();
 
-      // normalize backend items: try multiple possible fields
       const normalized = (Array.isArray(data) ? data : [])
         .map((d: any) => ({
-          title: d.name ?? d.title ?? d.label ?? "Sticker",
-          image: d.image ?? d.url ?? d.file ?? "",
+          title: d.name || d.title || "Sticker",
+
+          image: d.image.startsWith("http")
+            ? d.image
+            : `${process.env.NEXT_PUBLIC_BACKEND_URL}${d.image}`,
         }))
-        .filter((d: any) => typeof d.image === "string" && d.image.length > 0);
+        .filter((d: Item) => d.image);
 
-      return normalized;
-    } catch (e) {
-      console.error("Error fetching backend images:", e);
-      return [];
+      const shuffled = shuffle(normalized);
+
+      const finalItems = shuffled.map((item) => ({
+        ...item,
+
+        className:
+          POSITIONS[Math.floor(Math.random() * POSITIONS.length)],
+      }));
+
+      setItems(finalItems);
+    } catch (err) {
+      console.error(err);
+
+      setItems([]);
+    } finally {
+      setLoading(false);
     }
   };
 
-  /** Assign images (from backend if available) to fixed number of cards,
-   *  and give each a random position class.
-   */
-  const assignImagesAndPositions = (backendItems: Item[] | null) => {
-    let chosen: Item[] = [];
-
-    if (backendItems && backendItems.length > 0) {
-      // if backend has >= ITEM_COUNT, pick a random sample of ITEM_COUNT
-      if (backendItems.length >= ITEM_COUNT) {
-        chosen = shuffle(backendItems).slice(0, ITEM_COUNT);
-      } else {
-        // backend has < ITEM_COUNT: use all backend items and fill rest from defaults
-        const needed = ITEM_COUNT - backendItems.length;
-        const fallback = DEFAULT_ITEMS.slice(0, needed);
-        chosen = [...backendItems, ...fallback];
-      }
-    } else {
-      // no backend items -> use defaults
-      chosen = DEFAULT_ITEMS.slice(0, ITEM_COUNT);
-    }
-
-    // assign random position classes (can repeat) but keep count same
-    const assigned = chosen.map((it) => {
-      const cls = POSITIONS[Math.floor(Math.random() * POSITIONS.length)];
-      return { title: it.title, image: it.image, className: cls };
-    });
-
-    setItems(assigned);
-  };
-
-  /** Public: randomize positions AND fetch latest images from backend */
-  const randomize = async () => {
-    const backendItems = await fetchImagesFromBackend();
-    assignImagesAndPositions(backendItems);
-  };
-
-  // initial load: fetch from backend and assign
   useEffect(() => {
-    (async () => {
-      const backendItems = await fetchImagesFromBackend();
-      assignImagesAndPositions(backendItems);
-    })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    fetchImages();
   }, []);
 
   return (
     <div className="w-full">
+
       <h1 className="text-[40px] font-bold m-10 ml-5 text-left border-l-4 border-blue-500 pl-4">
         Random
       </h1>
 
-      <DraggableCardContainer className="relative flex min-h-screen w-full items-center justify-center overflow-clip">
-        {/* Center overlay that acts as Randomize button */}
+      <DraggableCardContainer className="relative flex min-h-screen w-full items-center justify-center overflow-hidden">
+
         <button
-          onClick={randomize}
-          aria-label="Randomize"
+          onClick={fetchImages}
           className="
-                    absolute top-1/2 mx-auto -translate-y-3/4
-                    px-6 py-3
-                    text-xl md:text-3xl font-semibold
+          absolute top-1/2
+          -translate-y-1/2
+          z-50
 
-                    rounded-xl border border-neutral-300/30
-                    bg-white/10 backdrop-blur-sm
-                    text-neutral-700 dark:text-neutral-300
+          px-6 py-3
 
-                    shadow-[0_4px_20px_rgba(0,0,0,0.2)]
-                    transition-all duration-300
+          rounded-xl
 
-                    hover:bg-white hover:text-black
-                    hover:shadow-[0_6px_25px_rgba(255,255,255,0.4)]
-                    cursor-pointer select-none
-                  "
-          style={{ WebkitTapHighlightColor: "transparent" }}
+          bg-white/10
+          backdrop-blur-md
+
+          border border-white/20
+
+          text-white
+
+          hover:bg-white
+          hover:text-black
+
+          transition
+        "
         >
           Randomize
         </button>
 
-        {items.map((item, idx) => (
-          <DraggableCardBody
-            key={`${item.title ?? "item"}-${idx}`}
-            className={item.className}
-          >
-            <img
-              src={`${process.env.NEXT_PUBLIC_BACKEND_URL}${item.image}`}
-              alt={item.title}
-              className="pointer-events-none relative z-10 h-80 w-80 object-cover"
-            />
-            <h3 className="mt-4 text-center text-2xl font-bold text-neutral-700 dark:text-neutral-300">
-              {item.title}
-            </h3>
-          </DraggableCardBody>
-        ))}
+        {loading && (
+          <div className="text-white text-xl">
+            Loading...
+          </div>
+        )}
+
+        {!loading &&
+          items.map((item, index) => (
+            <DraggableCardBody
+              key={index}
+              className={item.className}
+            >
+              <img
+                src={item.image}
+                alt={item.title}
+                className="
+                h-80
+                w-80
+                object-cover
+
+                pointer-events-none
+                relative
+                z-10
+              "
+              />
+
+              <h3 className="
+              mt-4
+              text-center
+              text-2xl
+              font-bold
+              text-white
+              ">
+                {item.title}
+              </h3>
+
+            </DraggableCardBody>
+          ))}
       </DraggableCardContainer>
+
     </div>
   );
 }

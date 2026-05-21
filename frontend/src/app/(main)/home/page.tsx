@@ -17,7 +17,6 @@ export default function Home() {
       <StickerRound />
       <DraggableCard />
       <OfferBanner />
-      {/* offer wala box */}
       <MakeYourOwnSticker />
       <WhyStickers />
       <OrderingProcess />
