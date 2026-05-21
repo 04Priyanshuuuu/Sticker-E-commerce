@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
 
@@ -7,6 +8,7 @@ export default function WriteToUs() {
   const [message, setMessage] = useState("");
 
   const handleSendEmail = async () => {
+    try {
       await emailjs.send(
         "service_a24z3yg",
         "template_9007h3t",
@@ -14,25 +16,19 @@ export default function WriteToUs() {
           name: email.split("@")[0],
           email: email,
           message: message,
-          title: "Website Message"
+          title: "Website Message",
         },
         "poWpnV2bFY9ROtC9W"
       );
 
       alert("Message sent!");
-    };
 
-  const body = encodeURIComponent(
-`User Email: ${email}
-
-Message:
-${message}`
-  );
-
-  window.open(
-    `mailto:${adminEmail}?subject=${subject}&body=${body}`
-  );
-};
+      setEmail("");
+      setMessage("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section>
@@ -47,26 +43,27 @@ ${message}`
           <input
             type="email"
             value={email}
-            onChange={(e)=>setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="Your Email"
             className="border border-white bg-transparent px-4 py-3 rounded-md"
           />
 
           <textarea
             value={message}
-            onChange={(e)=>setMessage(e.target.value)}
+            onChange={(e) => setMessage(e.target.value)}
             placeholder="Write here..."
             className="border border-white bg-transparent px-4 py-3 rounded-md h-32"
           />
 
           <button
             onClick={handleSendEmail}
-            className="px-6 py-3 bg-white text-black rounded-md hover:bg-gray-300 cursor-pointer"
+            className="px-6 py-3 bg-white text-black rounded-md cursor-pointer"
           >
             Send
           </button>
 
         </div>
+
       </div>
     </section>
   );
