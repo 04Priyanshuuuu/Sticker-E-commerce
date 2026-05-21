@@ -6,22 +6,23 @@ export default function WriteToUs() {
   const [message, setMessage] = useState("");
 
   const handleSendEmail = () => {
-    const adminEmail = "04myexperimentswithai@gmail.com";
+  const adminEmail = "04myexperimentswithai@gmail.com";
 
-    const subject = encodeURIComponent(
-      "Message from Website"
-    );
+  const subject = encodeURIComponent(
+    "Message from Website"
+  );
 
-    const body = encodeURIComponent(
+  const body = encodeURIComponent(
 `User Email: ${email}
 
 Message:
 ${message}`
-    );
+  );
 
-    window.location.href =
-      `mailto:${adminEmail}?subject=${subject}&body=${body}`;
-  };
+  window.open(
+    `mailto:${adminEmail}?subject=${subject}&body=${body}`
+  );
+};
 
   return (
     <section>
