@@ -120,7 +120,7 @@ export default function OrdersPage() {
     <main className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white px-4 py-8 sm:px-6 lg:px-8">
       <div className="max-w-6xl mt-30 mx-auto">
         <h1 className="text-3xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-          Hi {user.name || user.username || "User"},Your Orders
+          Hi {user?.name || "User"},Your Orders
         </h1>
 
         <div className="mb-8 flex flex-col md:flex-row gap-4">
@@ -175,7 +175,7 @@ export default function OrdersPage() {
                                 order.items?.[0]?.sticker?.image || ""
                               }`
                         }
-                        alt={order.items?.[0]?.sticker?.name || "Sticker"}
+                        alt={order.items?.[0]?.sticker?.title || "Sticker"}
                         width={180}
                         height={180}
                         className="object-contain rounded-xl bg-gray-900/30 p-2"

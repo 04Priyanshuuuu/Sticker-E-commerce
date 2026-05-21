@@ -27,7 +27,7 @@ def get_user_orders(request):
 @permission_classes([IsAuthenticated])
 def create_order(request):
     user = request.user
-    payment_method = request.data.get('payment_method', 'cod')  # default COD
+    payment_method = request.data.get('payment_method', 'cod')  
     shipping_address = request.data.get('shipping_address', '')
 
     cart, _ = Cart.objects.get_or_create(user=user)
