@@ -37,7 +37,7 @@ export default function WriteToUs() {
     <section>
       <div className="w-full">
       <h1 className="text-[40px] font-bold m-10 ml-5 border-l-4 border-blue-500 pl-4">
-        Trending
+        Connect With Us
       </h1>
       <div className="bg-black text-white py-20 flex flex-col items-center px-4">
         

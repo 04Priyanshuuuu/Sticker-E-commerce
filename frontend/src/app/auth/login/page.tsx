@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 
@@ -7,7 +8,9 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
   const { loading } = useState(false);
+
   const { setUser } = useAuth();
 
   const handleSubmit = async (
@@ -24,8 +27,7 @@ export default function LoginPage() {
         await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/auth/login/`,
           {
-            method:
-            "POST",
+            method: "POST",
 
             credentials:
             "include",
@@ -56,20 +58,21 @@ export default function LoginPage() {
           );
 
           const profileRes =
-await fetch(
-`${process.env.NEXT_PUBLIC_API_URL}/auth/profile/`,
-{
-   method:"GET",
+            await fetch(
+              `${process.env.NEXT_PUBLIC_API_URL}/auth/profile/`,
+              {
+                method: "GET",
 
-   credentials:
-   "include",
+                credentials:
+                "include",
 
-   headers:{
-      "Content-Type":
-      "application/json"
-   }
-}
-);
+                headers: {
+                  "Content-Type":
+                  "application/json"
+                }
+              }
+            );
+
           if (
             profileRes.ok
           ) {
@@ -84,20 +87,16 @@ await fetch(
 
           }
 
-        } catch {}
+        } catch { }
 
-        window.location.href =
-          "/";
+        window.location.href = "/";
 
-      } else {
+      }
+
+      else {
 
         const txt =
           await res.text();
-
-        console.log(
-          "LOGIN RESPONSE:",
-          txt
-        );
 
         setError(
           txt ||
@@ -106,11 +105,9 @@ await fetch(
 
       }
 
-    } catch (err) {
+    }
 
-      console.log(
-        err
-      );
+    catch {
 
       setError(
         "Something went wrong!"
@@ -122,103 +119,292 @@ await fetch(
 
   return (
 
-    <div className="relative min-h-screen w-full overflow-hidden bg-[#0b0b0f] flex items-center justify-center">
+    <div className="
+      min-h-screen
+      bg-black
+      relative
+      overflow-hidden
+      text-white
+      flex
+      items-center
+      justify-center
+      px-6
+    ">
 
-      <div className="absolute -top-24 -left-24 w-[420px] h-[420px] bg-blue-500/60 rounded-full blur-[140px]" />
+      {/* Background Glow */}
 
-      <div className="absolute -bottom-24 -right-24 w-[420px] h-[420px] bg-orange-500/60 rounded-full blur-[140px]" />
+      <div className="
+      absolute
+      top-[-180px]
+      left-[-150px]
+      w-[450px]
+      h-[450px]
+      bg-cyan-500/20
+      blur-[150px]
+      rounded-full
+      " />
 
-      <div
-        className="relative z-10 w-[420px] rounded-2xl border border-white/10
-                   bg-white/10 backdrop-blur-xl p-8
-                   shadow-[0_0_50px_rgba(0,0,0,0.6)] text-white"
-      >
+      <div className="
+      absolute
+      bottom-[-150px]
+      right-[-100px]
+      w-[400px]
+      h-[400px]
+      bg-blue-700/20
+      blur-[150px]
+      rounded-full
+      " />
 
-        <h2 className="text-3xl font-bold">
-          Login Here
-        </h2>
+      <div className="
+      relative
+      z-10
+      max-w-6xl
+      w-full
+      grid
+      lg:grid-cols-2
+      gap-16
+      items-center
+      ">
 
-        <p className="text-sm text-gray-300 mt-1">
-          Welcome back to your account
-        </p>
+        {/* LEFT */}
 
-        <form
-          onSubmit={handleSubmit}
-          className="mt-8 space-y-5"
+        <div>
+
+          <div className="
+          h-20
+          w-[4px]
+          bg-blue-500
+          mb-8
+          " />
+
+          <h1 className="
+          text-6xl
+          lg:text-7xl
+          font-bold
+          leading-tight
+          ">
+
+            Welcome to
+
+            <span className="
+            block
+            text-blue-400
+            mt-2
+            ">
+
+              Sticke
+
+            </span>
+
+          </h1>
+
+          <p className="
+          text-gray-400
+          text-lg
+          mt-6
+          max-w-xl
+          leading-8
+          ">
+
+            Explore premium anime,
+            nature, cars and custom
+            sticker collections.
+
+            Build your collection,
+            discover trending designs
+            and personalize your world.
+
+          </p>
+
+          <div className="
+          mt-10
+          flex
+          gap-4
+          flex-wrap
+          ">
+
+            <div className="
+            px-5
+            py-2
+            rounded-full
+            bg-white/5
+            border
+            border-white/10
+            ">
+
+              Anime
+
+            </div>
+
+            <div className="
+            px-5
+            py-2
+            rounded-full
+            bg-white/5
+            border
+            border-white/10
+            ">
+
+              Nature
+
+            </div>
+
+            <div className="
+            px-5
+            py-2
+            rounded-full
+            bg-white/5
+            border
+            border-white/10
+            ">
+
+              Trending
+
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* RIGHT */}
+
+        <div
+          className="
+          border
+          border-white/10
+          rounded-3xl
+          p-10
+          bg-white/5
+          backdrop-blur-xl
+          shadow-[0_0_50px_rgba(0,0,0,.6)]
+          "
         >
 
-          <Input
-            label="Email"
-            type="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e:any)=>
-              setEmail(
-                e.target.value
-              )
-            }
-          />
+          <h2 className="
+          text-3xl
+          font-bold
+          ">
 
-          <Input
-            label="Password"
-            type="password"
-            placeholder="••••••••"
-            value={password}
-            onChange={(e:any)=>
-              setPassword(
-                e.target.value
-              )
-            }
-          />
+            Login
 
-          {error && (
+          </h2>
 
-            <p className="text-red-400 text-sm">
+          <p className="
+          text-gray-400
+          mt-2
+          ">
 
-              {error}
+            Continue your Sticke journey
 
-            </p>
+          </p>
 
-          )}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-xl bg-white text-black py-3 font-semibold
-                       hover:bg-gray-200 transition cursor-pointer"
+          <form
+            onSubmit={handleSubmit}
+            className="
+            mt-8
+            space-y-6
+            "
           >
 
-            {loading
-            ? "Logging In..."
-            : "Log In"}
+            <Input
+              label="Email"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e: any) =>
+                setEmail(
+                  e.target.value
+                )
+              }
+            />
 
-          </button>
+            <Input
+              label="Password"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e: any) =>
+                setPassword(
+                  e.target.value
+                )
+              }
+            />
 
-        </form>
+            {
+              error &&
+              (
+                <p className="
+                text-red-400
+                text-sm
+                ">
 
-        <div className="mt-6 text-center space-y-3 text-sm text-gray-300">
+                  {error}
 
-          <a
-            href="/auth/forgot-password"
-            className="underline hover:text-white"
-          >
+                </p>
+              )
+            }
 
-            Forgot Password?
-
-          </a>
-
-          <div>
-
-            Don&apos;t have an account?{" "}
-
-            <a
-              href="/auth/signUp"
-              className="text-white underline"
+            <button
+              type="submit"
+              disabled={loading}
+              className="
+              w-full
+              py-3
+              rounded-xl
+              bg-blue-500
+              hover:bg-blue-600
+              transition
+              font-semibold
+              "
             >
 
-              Create one
+              {
+                loading
+                  ? "Logging In..."
+                  : "Enter Sticke"
+              }
+
+            </button>
+
+          </form>
+
+          <div className="
+          mt-8
+          text-sm
+          text-gray-400
+          space-y-3
+          ">
+
+            <a
+              href="/auth/forgot-password"
+              className="
+              underline
+              hover:text-white
+              "
+            >
+
+              Forgot Password?
 
             </a>
+
+            <div>
+
+              Don't have an account?
+
+              <a
+                href="/auth/signUp"
+                className="
+                text-blue-400
+                ml-2
+                underline
+                "
+              >
+
+                Create one
+
+              </a>
+
+            </div>
 
           </div>
 
@@ -236,7 +422,7 @@ function Input({
 
   label,
 
-  type="text",
+  type = "text",
 
   placeholder,
 
@@ -244,13 +430,18 @@ function Input({
 
   onChange
 
-}:any){
+}: any) {
 
-  return(
+  return (
 
     <div>
 
-      <label className="block text-sm mb-1 text-gray-300">
+      <label className="
+      block
+      mb-2
+      text-sm
+      text-gray-300
+      ">
 
         {label}
 
@@ -267,9 +458,20 @@ function Input({
 
         required
 
-        className="w-full rounded-lg bg-white/10 border border-white/10
-                   px-4 py-2.5 text-white placeholder-gray-400
-                   focus:outline-none focus:ring-2 focus:ring-white/20"
+        className="
+        w-full
+        bg-white/5
+        border
+        border-white/10
+        rounded-xl
+        px-4
+        py-3
+        text-white
+        placeholder-gray-500
+        focus:outline-none
+        focus:border-blue-500
+        transition
+        "
       />
 
     </div>
